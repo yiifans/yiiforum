@@ -54,18 +54,19 @@ class ThreadController extends BaseFrontController
      */
     public function actionView($id)
     {
-    	$model = $this->findModel($id);
-    	$posts=Post::findAll(['thread_id'=>$model['id']]);
+    	$thread = $this->findModel($id);
+    	$thread->updateCounters(['views'=>1]);
+    	$posts=Post::findAll(['thread_id'=>$thread['id']]);
     	
-    	$boardId=$model['board_id'];
+    	$boardId=$thread['board_id'];
     	$currentBoard=Board::findOne(['id'=>$boardId]);
     	
     	
     	$params=[];
-    	$params['model']=$model;
     	$params['currentBoard']=$currentBoard;
+    	$params['thread']=$thread;
     	$params['posts']=$posts;
-    	
+    	$params['newPost']=new Post;
     	
         return $this->render('view', $params);
     }
@@ -98,7 +99,6 @@ class ThreadController extends BaseFrontController
         } else {
             return $this->render('create', [
                 'model' => $model,
-            	'body' => '',
             	'currentBoard' => $currentBoard,
             ]);
         }
@@ -107,12 +107,13 @@ class ThreadController extends BaseFrontController
     public function actionNewPost()
     {
     	$data=$this->getPostValue('Post');
+    	$threadId=$data['thread_id'];
     	
     	$post = new Post;
-    	$post->thread_id=$data['thread_id'];
+    	$post->thread_id=$threadId;
     	$post->user_id=0;
     	$post->user_name='admin';
-    	$post->title=$data['title'];
+    	$post->title=isset($data['title'])?$data['title']:'';
     	$post->body=$data['body'];
     	$post->create_time=$this->getCurrentTime();
     	$post->modify_time=$this->getCurrentTime();
@@ -122,7 +123,7 @@ class ThreadController extends BaseFrontController
     	$post->note='';
     	if($post->save())
     	{
-    		
+    		Thread::updateAllCounters(['posts'=>1],['id'=>$threadId]);
     	}
 
     	return $this->redirect(['view', 'id' => $post->thread_id]);

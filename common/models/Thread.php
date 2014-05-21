@@ -37,9 +37,10 @@ class Thread extends BaseActiveRecord
     public function rules()
     {
         return [
-            [['board_id', 'user_id', 'user_name', 'title', 'create_time'], 'required'],
+            [['board_id', 'user_id', 'user_name', 'title', 'body', 'create_time'], 'required'],
             [['board_id', 'user_id', 'views', 'posts', 'status'], 'integer'],
             [['create_time', 'modify_time'], 'safe'],
+            [['body'], 'string'],
             [['user_name'], 'string', 'max' => 32],
             [['title'], 'string', 'max' => 256],
             [['note1', 'note2'], 'string', 'max' => 64]
@@ -57,6 +58,7 @@ class Thread extends BaseActiveRecord
             'user_id' => 'User ID',
             'user_name' => 'User Name',
             'title' => 'Title',
+            'body' => 'Body',
             'create_time' => 'Create Time',
             'modify_time' => 'Modify Time',
             'views' => 'Views',
@@ -65,5 +67,19 @@ class Thread extends BaseActiveRecord
             'note1' => 'Note1',
             'note2' => 'Note2',
         ];
+    }
+    
+    private $_body;
+    public function getBody()
+    {
+    	if($this->_body==null)
+    	{
+    		$this->_body='';
+    	}
+    	return $this->_body;
+    }
+    public function setBody($value)
+    {
+    	$this->_body=$value;
     }
 }

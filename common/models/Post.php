@@ -37,7 +37,7 @@ class Post extends BaseActiveRecord
     public function rules()
     {
         return [
-            [['thread_id', 'user_id', 'user_name', 'title', 'body', 'create_time'], 'required'],
+            [['thread_id', 'user_id', 'user_name', 'body', 'create_time'], 'required'],
             [['thread_id', 'user_id', 'supports', 'againsts', 'floor'], 'integer'],
             [['body'], 'string'],
             [['create_time', 'modify_time'], 'safe'],

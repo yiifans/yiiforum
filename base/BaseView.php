@@ -46,4 +46,9 @@ class BaseView extends View
 			$params[$name]=$value;
 		}
 	}
+	
+	public function showTime($time,$format='Y-m-d')
+	{
+		echo date($format,strtotime($time));
+	}
 }
