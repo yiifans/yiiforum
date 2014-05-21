@@ -11,5 +11,11 @@ qq群：308110659
 使用wamp环境、zend 10.5工具开发
 
 安装：
-创建数据库 yiiform utf8编码，然后导入doc\sql\中的数据脚本，
+vendor:
+由于这个文件比较大，所以就没有上传这个文件。
+你可以直接下载文件：https://github.com/yiisoft/yii2/releases/download/2.0.0-beta/yii-advanced-app-2.0.0-beta.tgz
+解压，把里面的vendor复制到vendor目录即可。
+
+数据库：
+创建数据库 yiiform utf8编码，然后导入doc\sql\yiiforum_xxx.sql数据脚本，
 
