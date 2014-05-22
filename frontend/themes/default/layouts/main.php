@@ -47,10 +47,13 @@ AppAsset::register($this);
                     'linkOptions' => ['data-method' => 'post']
                 ];
             }
+            $menuItems[] = ['label' => '½Å±¾Éý¼¶ ', 'url' => ['/upgrade/']];
+            
             echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-right'],
                 'items' => $menuItems,
             ]);
+			
             NavBar::end();
         ?>
 

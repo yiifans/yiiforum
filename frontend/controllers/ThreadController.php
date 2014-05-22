@@ -11,6 +11,7 @@ use yii\filters\VerbFilter;
 use frontend\base\BaseFrontController;
 use common\models\Board;
 use common\models\Post;
+use yii\data\Pagination;
 
 /**
  * ThreadController implements the CRUD actions for Thread model.
@@ -37,14 +38,13 @@ class ThreadController extends BaseFrontController
     {
     	$boardId=$this->getGetValue('boardid');
     	
-    	$currentBoard=Board::findOne(['id'=>$boardId]);
-    	$threads=Thread::find()->where(['board_id'=>$boardId])->orderBy('create_time desc')->all();
+    	$query=Thread::find()->where(['board_id'=>$boardId]);
     	
-		$params=[];
-		$params['currentBoard'] = $currentBoard;
-		$params['threads'] = $threads;
+		$locals=$this->getPagedRows($query,['order'=>'create_time desc']);
 		
-        return $this->render('index', $params);
+		$locals['currentBoard'] = $this->getBoard($boardId);
+		
+        return $this->render('index', $locals);
     }
 
     /**
@@ -56,19 +56,17 @@ class ThreadController extends BaseFrontController
     {
     	$thread = $this->findModel($id);
     	$thread->updateCounters(['views'=>1]);
-    	$posts=Post::findAll(['thread_id'=>$thread['id']]);
-    	
-    	$boardId=$thread['board_id'];
-    	$currentBoard=Board::findOne(['id'=>$boardId]);
     	
     	
-    	$params=[];
-    	$params['currentBoard']=$currentBoard;
-    	$params['thread']=$thread;
-    	$params['posts']=$posts;
-    	$params['newPost']=new Post;
+    	$query=Post::find()->where(['thread_id'=>$thread['id']]);
     	
-        return $this->render('view', $params);
+    	$locals=$this->getPagedRows($query,['order'=>'create_time asc','pageSize'=>10]);
+    	
+    	$locals['currentBoard']=$this->getBoard($thread['board_id']);
+    	$locals['thread']=$thread;
+    	$locals['newPost']=new Post;
+    	
+        return $this->render('view', $locals);
     }
 
     /**
@@ -79,66 +77,80 @@ class ThreadController extends BaseFrontController
     public function actionCreate()
     {
     	$boardId=$this->getGetValue('boardid');
-    	$currentBoard=Board::findOne(['id'=>$boardId]);
     	
         $model = new Thread;
 
         if ($model->load(Yii::$app->request->post())) {
-        	$model->board_id=$boardId;
+        	//$model->board_id=$boardId;
         	$model->user_id=0;
         	$model->user_name='admin';
         	$model->create_time=$this->getCurrentTime();
+        	$model->modify_time=$this->getCurrentTime();
         	if($model->save())
         	{
-        		
-        		$this->savePostForThread($model->id);
+        		$this->savePostForThread($model);
         	}
-        	$this->info($model,__METHOD__);
+        	//$this->info($model,__METHOD__);
         	
             return $this->redirect(['view', 'id' => $model->id, 'boardid'=>$boardId]);
         } else {
-            return $this->render('create', [
-                'model' => $model,
-            	'currentBoard' => $currentBoard,
-            ]);
+        	$locals=[];
+        	$locals['model']=$model;
+        	$locals['currentBoard']=$this->getBoard($boardId);
+            return $this->render('create', $locals);
         }
     }
     
-    public function actionNewPost()
-    {
-    	$data=$this->getPostValue('Post');
-    	$threadId=$data['thread_id'];
-    	
-    	$post = new Post;
-    	$post->thread_id=$threadId;
-    	$post->user_id=0;
-    	$post->user_name='admin';
-    	$post->title=isset($data['title'])?$data['title']:'';
-    	$post->body=$data['body'];
-    	$post->create_time=$this->getCurrentTime();
-    	$post->modify_time=$this->getCurrentTime();
-    	$post->supports=0;
-    	$post->againsts=0;
-    	$post->floor=0;
-    	$post->note='';
-    	if($post->save())
-    	{
-    		Thread::updateAllCounters(['posts'=>1],['id'=>$threadId]);
-    	}
-
-    	return $this->redirect(['view', 'id' => $post->thread_id]);
-    }
     
-	private function savePostForThread($threadId)
+    
+	private function savePostForThread($thread,$post=null)
 	{
 		$data=$this->getPostValue('Thread');
 		
-		
+		if($post==null)
+		{
+			$post = new Post;
+			$post->thread_id=$thread['id'];
+			$post->user_id=0;
+			$post->user_name='admin';
+			$post->title=$thread['title'];
+			$post->body=$data['body'];
+			$post->create_time=$thread['create_time'];
+			$post->modify_time=$thread['modify_time'];
+			$post->supports=0;
+			$post->againsts=0;
+			$post->floor=0;
+			$post->note='';
+		}
+		else 
+		{
+			//$post->thread_id=$thread['id'];
+			//$post->user_id=0;
+			//$post->user_name='admin';
+			$post->title=$thread['title'];;
+			$post->body=$data['body'];
+			//$post->create_time=$thread['create_time'];
+			$post->modify_time=$thread['modify_time'];
+			//$post->supports=0;
+			//$post->againsts=0;
+			//$post->floor=0;
+			//$post->note='';
+		}
+		$this->info($post);
+		$post->save();
+		$this->info($post);
+	}
+	
+	public function actionNewPost()
+	{
+		$data=$this->getPostValue('Post');
+		$threadId=$data['thread_id'];
+	
 		$post = new Post;
 		$post->thread_id=$threadId;
 		$post->user_id=0;
 		$post->user_name='admin';
-		$post->title=$data['title'];
+		$post->title=isset($data['title'])?$data['title']:'';
 		$post->body=$data['body'];
 		$post->create_time=$this->getCurrentTime();
 		$post->modify_time=$this->getCurrentTime();
@@ -146,10 +158,13 @@ class ThreadController extends BaseFrontController
 		$post->againsts=0;
 		$post->floor=0;
 		$post->note='';
-		$post->save();
-		$this->info($post,__METHOD__);
-	}
+		if($post->save())
+		{
+			Thread::updateAllCounters(['posts'=>1],['id'=>$threadId]);
+		}
 	
+		return $this->redirect(['view', 'id' => $post->thread_id]);
+	}
 
     /**
      * Updates an existing Thread model.
@@ -160,13 +175,34 @@ class ThreadController extends BaseFrontController
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $boardId=$model['board_id'];
+        
+        $post=Post::find()->where(['thread_id'=>$model['id']])->orderBy('create_time asc')->one();
+		
+        if ($model->load(Yii::$app->request->post())) {
+        	//$model->board_id=$boardId;
+        	//$model->user_id=0;
+        	//$model->user_name='admin';
+        	//$model->create_time=$this->getCurrentTime();
+        	$model->modify_time=$this->getCurrentTime();
+        	if($model->save())
+        	{
+        		$this->info($post);
+        		$this->savePostForThread($model,$post);
+        	}
+        	$this->info($model,__METHOD__);
+        	 
+        	return $this->redirect(['view', 'id' => $model->id, 'boardid'=>$boardId]);
         } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        	if($post)
+        	{
+        		$model->body=$post['body'];
+        	}
+        	
+        	$locals=[];
+        	$locals['currentBoard']=$this->getBoard($boardId);
+        	$locals['model']=$model;
+            return $this->render('update', $locals);
         }
     }
 
@@ -178,9 +214,12 @@ class ThreadController extends BaseFrontController
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+    	$thread=$this->findModel($id);
+    	$thread->delete();
+    	
+    	Post::deleteAll(['thread_id'=>$thread['id']]);
 
-        return $this->redirect(['index']);
+        return $this->redirect(['index','boardid'=>$thread['board_id']]);
     }
 
     /**
@@ -198,4 +237,6 @@ class ThreadController extends BaseFrontController
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+    
+    
 }

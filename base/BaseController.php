@@ -13,12 +13,65 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\helpers\VarDumper;
+use yii\data\Pagination;
+use common\models\Board;
 
 /**
  * Site controller
  */
 class BaseController extends Controller
 {
+
+
+	public function getBoard($id)
+	{
+		return Board::findOne(['id'=>$id]);
+	}
+	
+	public function getPagedRows($query,$config=[])
+	{
+		$countQuery = clone $query;
+		$pages=new Pagination(['totalCount' => $countQuery->count()]);
+		if(isset($config['pageSize']))
+		{
+			$pages->setPageSize($config['pageSize'],true);
+		}
+		
+		$rows = $query->offset($pages->offset)->limit($pages->limit);
+		if(isset($config['order']))
+		{
+			$rows = $rows->orderBy($config['order']);
+		}
+		$rows = $rows->all();
+		
+		
+		$rowsLable='rows';
+		$pagesLable='pages';
+		
+		if(isset($config['rows']))
+		{
+			$rowsLable=$config['rows'];
+		}
+		if(isset($config['pages']))
+		{
+			$pagesLable=$config['pages'];
+		}
+		
+		$ret=[];
+		$ret[$rowsLable]=$rows;
+		$ret[$pagesLable]=$pages;
+		
+		return $ret;
+	}
+	
+	public function execute($sql)
+	{
+		//Yii::info($sql,__METHOD__);
+		$db=\Yii::$app->db;
+		$command=$db->createCommand($sql);
+		$command->execute();
+	}
+	
 	public function hasGetValue($key)
 	{
 		return isset($_GET[$key]);
@@ -72,6 +125,7 @@ class BaseController extends Controller
 	
 	public function getCurrentTime()
 	{
+		date_default_timezone_set('PRC');
 		return date('Y-m-d H:i:s',time());
 	}
 }

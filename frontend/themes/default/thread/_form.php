@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(['id'=>'thread']); ?>
 
-    
+    <input type="hidden" id="thread-title" name="Thread[title]" value="<?php echo $currentBoard['id'];?>">
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => 256]) ?>
 

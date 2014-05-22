@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\widgets\LinkPager;
 
 /**
  * @var yii\web\View $this
@@ -35,6 +36,14 @@ $this->params['breadcrumbs'][] = ['label' => $currentBoard['name'], 'url' => ['i
     	</tr>
     	<?php endforeach;?>
     </table>
-   
+   <div class="tbox border">
+    
+    <?php
+    
+	
+    echo LinkPager::widget([
+   		'pagination' => $pages,
+   ]);?>
+    </div>
 
 </div>

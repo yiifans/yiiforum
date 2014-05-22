@@ -32,9 +32,9 @@ return [
 			'class' => 'frontend\base\BaseFrontView',
 			'theme' => [
 				'pathMap' => [
-					'@app/views' => '@app/thems/default',
-					'@app/modules' => '@app/thems/default/modules',
-					'@app/widgets' => '@app/thems/default/widgets',
+					'@app/views' => '@app/themes/default',
+					'@app/modules' => '@app/themes/default/modules',
+					'@app/widgets' => '@app/themes/default/widgets',
 				],
 			],
 		],

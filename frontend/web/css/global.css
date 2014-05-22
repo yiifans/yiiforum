@@ -160,15 +160,17 @@ white-space: normal;
 margin: 0px auto;
 text-align: center;
 }
-
-.pagination a{
-margin-right: 5px;
+.pagination li{margin-right: 5px;
 display: inline-block;
-height: 20px;
-line-height: 20px;
-padding: 0 8px;
+
 font-size: 12px;
-border: 1px solid #D8DADF;}
+border: 0px solid #D8DADF;}
+
+.pagination .prev{}
+.pagination .active{}
+.pagination .next{}
+.pagination a{
+}
 
 .pagination a:link {
 
