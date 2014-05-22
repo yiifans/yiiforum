@@ -2,30 +2,34 @@
 /**
  * @var yii\web\View $this
  */
-$this->title = 'My Yii Forum';
+$this->title = 'è„šæœ¬å‡çº§';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-index">
 
+	<h1><?= $this->title ?></h1>
+
+   
 
     <div class="body-content">
     
        <?php 
        		if(empty($needUpgradeSqls))
        		{
-       			echo '²»ÐèÒªÉý¼¶sql<br>';
-       			echo '<a href="'.$this->homeUrl.'">·µ»ØÊ×Ò³</a>';
+       			echo 'ä¸éœ€è¦å‡çº§sql<br>';
+       			echo '<a href="'.$this->homeUrl.'">è¿”å›žé¦–é¡µ</a>';
        		}
        		else 
        		{
-       			echo 'ÉÏ´ÎÉý¼¶µ½µÄsqlÎª£º'.$lastSql.'<br>';
+       			echo 'ä¸Šæ¬¡å‡çº§åˆ°çš„sqlä¸ºï¼š'.$lastSql.'<br>';
        			
-       			echo 'ÐèÒªÉý¼¶ÒÔÏÂsqlÎÄ¼þ£º(Éý¼¶Ö®Ç°Ç¿ÁÒ½¨ÒéÄã±¸·ÝÊý¾Ý¿â)<br>';
+       			echo 'éœ€è¦å‡çº§ä»¥ä¸‹sqlæ–‡ä»¶ï¼š(å‡çº§ä¹‹å‰å¼ºçƒˆå»ºè®®ä½ å¤‡ä»½æ•°æ®åº“)<br>';
        			foreach ($needUpgradeSqls as $sql)
        			{
        				echo '<font color="red">'.$sql.'</font><br>';
        			}
        			
-       			echo '<a class="btn btn-success" href="/yiiforum/frontend/web/index.php?r=upgrade/do">Éý¼¶</a>';
+       			echo '<a class="btn btn-success" href="/yiiforum/frontend/web/index.php?r=upgrade/do">å‡çº§</a>';
        		}
        ?>
     </div>

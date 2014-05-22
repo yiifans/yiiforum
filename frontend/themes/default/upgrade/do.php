@@ -12,7 +12,7 @@ $this->title = 'My Yii Forum';
        <?php 
        		echo $message.'<br>';
        		
-       		echo '<a href="'.$this->homeUrl.'">·µ»ØÊ×Ò³</a>';
+       		echo '<a href="'.$this->homeUrl.'">è¿”å›žé¦–é¡µ</a>';
        ?>
        
     </div>

@@ -76,20 +76,24 @@ class ThreadController extends BaseFrontController
      */
     public function actionCreate()
     {
+    	$this->checkIsGuest();
+    	
     	$boardId=$this->getGetValue('boardid');
     	
         $model = new Thread;
 
         if ($model->load(Yii::$app->request->post())) {
-        	//$model->board_id=$boardId;
-        	$model->user_id=0;
-        	$model->user_name='admin';
+        	$model->board_id=$boardId;
+        	$model->user_id=$this->identity->id;
+        	$model->user_name=$this->identity->username;
         	$model->create_time=$this->getCurrentTime();
         	$model->modify_time=$this->getCurrentTime();
         	if($model->save())
         	{
         		$this->savePostForThread($model);
         	}
+        	
+        	
         	//$this->info($model,__METHOD__);
         	
             return $this->redirect(['view', 'id' => $model->id, 'boardid'=>$boardId]);
@@ -111,8 +115,8 @@ class ThreadController extends BaseFrontController
 		{
 			$post = new Post;
 			$post->thread_id=$thread['id'];
-			$post->user_id=0;
-			$post->user_name='admin';
+			$post->user_id=$thread['user_id'];
+			$post->user_name=$thread['user_name'];
 			$post->title=$thread['title'];
 			$post->body=$data['body'];
 			$post->create_time=$thread['create_time'];
@@ -143,13 +147,15 @@ class ThreadController extends BaseFrontController
 	
 	public function actionNewPost()
 	{
+		$this->checkIsGuest();
+		
 		$data=$this->getPostValue('Post');
 		$threadId=$data['thread_id'];
 	
 		$post = new Post;
 		$post->thread_id=$threadId;
-		$post->user_id=0;
-		$post->user_name='admin';
+		$post->user_id=$this->identity->id;
+		$post->user_name=$this->identity->username;
 		$post->title=isset($data['title'])?$data['title']:'';
 		$post->body=$data['body'];
 		$post->create_time=$this->getCurrentTime();
@@ -174,6 +180,8 @@ class ThreadController extends BaseFrontController
      */
     public function actionUpdate($id)
     {
+    	$this->checkIsGuest();
+    	
         $model = $this->findModel($id);
         $boardId=$model['board_id'];
         
@@ -214,6 +222,8 @@ class ThreadController extends BaseFrontController
      */
     public function actionDelete($id)
     {
+    	$this->checkIsGuest();
+    	
     	$thread=$this->findModel($id);
     	$thread->delete();
     	

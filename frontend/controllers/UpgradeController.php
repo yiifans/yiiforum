@@ -122,7 +122,7 @@ class UpgradeController extends BaseFrontController
     	$message='';
     	if(empty($needUpgradeSqls))
     	{
-    		$message='没有要升级的文件';
+    		$message='娌℃湁瑕佸崌绾х殑鏂囦欢';
     	}
     	else 
     	{
@@ -138,7 +138,7 @@ class UpgradeController extends BaseFrontController
     		
     		TFileHelper::writeFile([$sqlPath,'upgrade.txt'], $lastSql);
     		
-    		$message='升级成功，当前sql为：yiiforum_'.$lastSql.'.sql';
+    		$message='鍗囩骇鎴愬姛锛屽綋鍓峴ql涓猴細yiiforum_'.$lastSql.'.sql';
     	}
     	
     	

@@ -14,13 +14,11 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(['id'=>'thread']); ?>
 
-    <input type="hidden" id="thread-title" name="Thread[title]" value="<?php echo $currentBoard['id'];?>">
-
     <?= $form->field($model, 'title')->textInput(['maxlength' => 256]) ?>
 
     <?= $form->field($model, 'body')->textarea(['rows' => 8]) ?>
     
-    <?= $form->field($model, 'status')->dropDownList(['1'=>'·¢²¼','0'=>'²Ý¸å']) ?>
+    <?= $form->field($model, 'status')->dropDownList(['1'=>'å‘å¸ƒ','0'=>'è‰ç¨¿']) ?>
 
     
 

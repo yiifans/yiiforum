@@ -22,7 +22,40 @@ use common\models\Board;
 class BaseController extends Controller
 {
 
+	public function checkIsGuest()
+	{
+		$isGuest = Yii::$app->user->isGuest;
+		if($isGuest)
+		{
+			return $this->redirect(['site/login']);
+			
+			$model = new LoginForm();
+			return $this->render('site/login', ['model' => $model]);
+		}
+		return true;
+	}
+	
+	private $_identity;
+	
+	public function getIdentity()
+	{
+		if($this->_identity==null)
+		{
+			$this->_identity = Yii::$app->user->getIdentity();
+		}
+		return $this->_identity;
+	}
+	
+	public function getUser()
+	{
+		return Yii::$app->user;
+	}
 
+	public function getIsGuest()
+	{
+		return Yii::$app->user->isGuest;
+	}
+	
 	public function getBoard($id)
 	{
 		return Board::findOne(['id'=>$id]);

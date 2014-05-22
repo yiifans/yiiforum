@@ -7,8 +7,8 @@ use yii\helpers\Html;
  * @var common\models\Thread $model
  */
 
-$this->title = '更新帖子: ' . $model->title;
-$this->params['breadcrumbs'][] = ['label' => $currentBoard['name'], 'url' => ['index&boardid='.$currentBoard['id']]];
+$this->title = 'Update Thread: ' . $model->title;
+$this->params['breadcrumbs'][] = ['label' => 'Threads', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
@@ -18,7 +18,6 @@ $this->params['breadcrumbs'][] = 'Update';
 
     <?= $this->render('_form', [
         'model' => $model,
-    	'currentBoard'=>$currentBoard,
     ]) ?>
 
 </div>

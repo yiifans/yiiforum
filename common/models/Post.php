@@ -57,13 +57,13 @@ class Post extends BaseActiveRecord
             'thread_id' => 'Thread ID',
             'user_id' => 'User ID',
             'user_name' => 'User Name',
-            'title' => 'Title',
-            'body' => 'Body',
+            'title' => '标题',
+            'body' => '内容',
             'create_time' => 'Create Time',
             'modify_time' => 'Modify Time',
-            'supports' => 'Supports',
-            'againsts' => 'Againsts',
-            'floor' => 'Floor',
+            'supports' => '支持数',
+            'againsts' => '反对数',
+            'floor' => '楼层',
             'note' => 'Note',
         ];
     }

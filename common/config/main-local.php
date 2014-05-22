@@ -6,7 +6,7 @@ return [
             'dsn' => 'mysql:host=localhost;dbname=yiiforum',
             'username' => 'root',
             'password' => '',
-            'charset' => 'gbk',
+            'charset' => 'utf8',
         ],
         'mail' => [
             'class' => 'yii\swiftmailer\Mailer',

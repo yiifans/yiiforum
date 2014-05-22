@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = ['label' => $currentBoard['name'], 'url' => ['i
 
     <div class="tbox">
 	    <div class="floatl">
-	    	<?= Html::a('·¢Ìû', ['create&boardid='.$currentBoard['id']], ['class' => 'btn btn-success']) ?>
+	    	<?= Html::a('å‘å¸–', ['create&boardid='.$currentBoard['id']], ['class' => 'btn btn-success']) ?>
 	    </div>
 	    <div class="floatr">
 		    <?php echo LinkPager::widget([
@@ -30,10 +30,10 @@ $this->params['breadcrumbs'][] = ['label' => $currentBoard['name'], 'url' => ['i
     <div class="tbox">
 	    <table class="thread-list border">
 	    	<tr>
-	    		<th>Ö÷Ìâ</th>
-	    		<th width="120px">×÷Õß</th>
-	    		<th width="120px">»Ø¸´/²é¿´</th>
-	    		<th width="120px">×îºó·¢±í</th>
+	    		<th>ä¸»é¢˜</th>
+	    		<th width="120px">ä½œè€…</th>
+	    		<th width="120px">å›žå¤/æŸ¥çœ‹</th>
+	    		<th width="120px">æœ€åŽå‘è¡¨</th>
 	    	</tr>
 	    	<?php foreach ($rows as $row ):?>
 	    	<tr>
@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = ['label' => $currentBoard['name'], 'url' => ['i
     
     <div class="tbox">
 	    <div class="floatl">
-	    	<?= Html::a('·¢Ìû', ['create&boardid='.$currentBoard['id']], ['class' => 'btn btn-success']) ?>
+	    	<?= Html::a('å‘å¸–', ['create&boardid='.$currentBoard['id']], ['class' => 'btn btn-success']) ?>
 	    </div>
 	    <div class="floatr">
 		    <?php echo LinkPager::widget([

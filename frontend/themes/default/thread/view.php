@@ -16,13 +16,11 @@ $this->params['breadcrumbs'][] = ['label' => $currentBoard['name'], 'url' => ['i
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="thread-view">
-
-<?php echo date('Y-m-d H:i:s',time())?>
 	<div class="tbox">
 		<div class="floatl">
-			<?= Html::a('·¢Ìû', ['create&boardid='.$currentBoard['id']], ['class' => 'btn btn-success']) ?>
-		        <?= Html::a('¸üÐÂ', ['update', 'id' => $thread->id], ['class' => 'btn btn-primary']) ?>
-		        <?= Html::a('É¾³ý', ['delete', 'id' => $thread->id], [
+			<?= Html::a('å‘å¸–', ['create&boardid='.$currentBoard['id']], ['class' => 'btn btn-success']) ?>
+		        <?= Html::a('æ›´æ–°', ['update', 'id' => $thread->id], ['class' => 'btn btn-primary']) ?>
+		        <?= Html::a('åˆ é™¤', ['delete', 'id' => $thread->id], [
 		            'class' => 'btn btn-danger',
 		            'data' => [
 		                'confirm' => 'Are you sure you want to delete this item?',
@@ -42,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	    	<tr>
 	    		<td class="post-left-column header">
 	    			<div>
-		    			²é¿´£º<span><?php echo $thread['views'];?></span>»Ø¸´£º<span><?php echo $thread['posts'];?></span>
+		    			æŸ¥çœ‹ï¼š<span><?php echo $thread['views'];?></span>å›žå¤ï¼š<span><?php echo $thread['posts'];?></span>
 		    		</div>
 	    		</td>
 	    		<td class="post-right-column header">
@@ -69,7 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		    		</td>
 		    		<td class="post-right-column header">
 		    			<div class="dashed-border-b padding-b8">
-		    				·¢±íÓÚ£º<span><?php echo $row['create_time'];?></span> <span class="floatr"><?php echo $floor;?>Â¥</span>
+		    				å‘è¡¨äºŽï¼š<span><?php echo $row['create_time'];?></span> <span class="floatr"><?php echo $floor;?>æ¥¼</span>
 		    			</div>
 		    		</td>
 		    	</tr>
@@ -90,7 +88,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		    		</td>
 		    		<td class="post-right-column footer">
 		    			<div class="dashed-border-t padding-t8">
-	    					<span>»Ø¸´</span><span>±à¼­</span><span>Ö§³Ö</span><span>·´¶Ô</span>
+	    					<span>å›žå¤</span><span>ç¼–è¾‘</span><span>æ”¯æŒ</span><span>åå¯¹</span>
 	    				</div>
 		    		</td>
 		    	</tr>
@@ -100,9 +98,9 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
    	<div class="tbox">
 		<div class="floatl">
-			<?= Html::a('·¢Ìû', ['create&boardid='.$currentBoard['id']], ['class' => 'btn btn-success']) ?>
-		        <?= Html::a('¸üÐÂ', ['update', 'id' => $thread->id], ['class' => 'btn btn-primary']) ?>
-		        <?= Html::a('É¾³ý', ['delete', 'id' => $thread->id], [
+			<?= Html::a('å‘å¸–', ['create&boardid='.$currentBoard['id']], ['class' => 'btn btn-success']) ?>
+		        <?= Html::a('æ›´æ–°', ['update', 'id' => $thread->id], ['class' => 'btn btn-primary']) ?>
+		        <?= Html::a('åˆ é™¤', ['delete', 'id' => $thread->id], [
 		            'class' => 'btn btn-danger',
 		            'data' => [
 		                'confirm' => 'Are you sure you want to delete this item?',
@@ -124,10 +122,10 @@ $this->params['breadcrumbs'][] = $this->title;
 	
 	    	<input type="hidden" id="post-thread_id" name="Post[thread_id]" value="<?php echo $thread['id']?>"/>
 	    	
-	    	<?= $form->field($newPost, 'body',['template'=>"»ØÌû\n{input}\n{hint}\n{error}"])->textarea(['rows' => 6]) ?>
+	    	<?= $form->field($newPost, 'body',['template'=>"å›žå¸–\n{input}\n{hint}\n{error}"])->textarea(['rows' => 6]) ?>
 	    	
 		    <div class="form-group">
-		        <?= Html::submitButton('»ØÌû', ['class' => 'btn btn-success']) ?>
+		        <?= Html::submitButton('å›žå¸–', ['class' => 'btn btn-success']) ?>
 		    </div>
 	
 	    <?php ActiveForm::end(); ?>

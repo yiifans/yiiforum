@@ -44,12 +44,12 @@ class Board extends BaseActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'parent_id' => 'Parent ID',
-            'name' => 'Name',
-            'description' => 'Description',
-            'threads' => 'Threads',
-            'posts' => 'Posts',
+            'id' => '标号',
+            'parent_id' => '父级',
+            'name' => '名称',
+            'description' => '描述',
+            'threads' => '主题数',
+            'posts' => '回帖数',
         ];
     }
 }
