@@ -13,6 +13,10 @@ use common\helpers\TFileHelper;
  * @property integer $parent_id
  * @property string $name
  * @property string $description
+ * @property integer $columns
+ * @property integer $sort_num
+ * @property string $redirect_url
+ * @property string $target
  * @property integer $threads
  * @property integer $posts
  */
@@ -32,10 +36,10 @@ class Board extends BaseActiveRecord
     public function rules()
     {
         return [
-            [['parent_id', 'name', 'description'], 'required'],
-            [['parent_id', 'threads', 'posts'], 'integer'],
-            [['name'], 'string', 'max' => 32],
-            [['description'], 'string', 'max' => 128]
+            [['parent_id', 'name', 'description','columns', 'sort_num'], 'required'],
+            [['parent_id', 'columns', 'sort_num', 'threads', 'posts'], 'integer'],
+            [['name', 'target'], 'string', 'max' => 32],
+            [['description', 'redirect_url'], 'string', 'max' => 128]
         ];
     }
 
@@ -49,6 +53,10 @@ class Board extends BaseActiveRecord
             'parent_id' => '父级',
             'name' => '名称',
             'description' => '描述',
+            'columns' => '子板块列数',
+            'sort_num' => '排序',
+            'redirect_url' => '转向URL',
+            'target' => '打开方式',
             'threads' => '主题数',
             'posts' => '回帖数',
         ];
@@ -67,7 +75,7 @@ class Board extends BaseActiveRecord
     {
     	$ret=[];
     
-    	$dataList=Board::findAll(['parent_id'=>$parentId]);
+    	$dataList=Board::findAll(['parent_id'=>$parentId],'sort_num desc');
     	
     	if($dataList==null || empty($dataList)){
     		return $ret;
@@ -127,13 +135,14 @@ class Board extends BaseActiveRecord
     
     		$content.=Board::getCacheItem('id', $row, true);
     		$content.=Board::getCacheItem('parent_id', $row,true);
-    			
     		$parentIds=Board::getParentIds($id);
     		$content.=Board::getCacheItemValue('parent_ids',implode(',', $parentIds));
-    		
-    			
     		$content.=Board::getCacheItem('name',$row);
-    		
+    		$content.=Board::getCacheItem('description',$row);
+    		$content.=Board::getCacheItem('columns',$row,true);
+    		$content.=Board::getCacheItem('sort_num',$row,true);
+    		$content.=Board::getCacheItem('redirect_url',$row);
+    		$content.=Board::getCacheItem('target',$row);
     		$content.=Board::getCacheItemValue('level',count($parentIds)-1,true);
     		
     
@@ -144,42 +153,26 @@ class Board extends BaseActiveRecord
     	$dataRoot = \Yii::getAlias('@data');
     
     	TFileHelper::writeFile([$dataRoot,'cache','cachedBoards.php'], $content);
-    		
-    	//$this->info($cachedContent,__METHOD__);
-    
-    	//return $content;
+    	
     }
     
     public static function getCacheItem($name,$row,$isInt=false)
     {
-    	$newLine="\r\n";
-    
-    	$value='\''.$row[$name].'\'';
-    
-    	if($isInt)
-    	{
-    		if(isset($row[$name]))
-    		{
-    			$value=$row[$name];
-    		}
-    		else
-    		{
-    			$value=0;
-    		}
-    	}
-    
-    	return '	\''.$name.'\' => '.$value.','.$newLine;
+    	return self::getCacheItemValue($name,$row[$name],$isInt);
     }
     
     public static function getCacheItemValue($name,$value,$isInt=false)
     {
     	$newLine="\r\n";
     
-    	if(!$isInt)
+    	if($isInt)
+    	{
+    		$value = intval($value);
+    	}
+    	else 
     	{
     		$value='\''.$value.'\'';
     	}
-    	
     
     	return '	\''.$name.'\' => '.$value.','.$newLine;
     }

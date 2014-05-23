@@ -63,7 +63,7 @@ class BoardController extends BaseBackController
     public function actionCreate()
     {
         $model = new Board;
-
+		$model->loadDefaultValues();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
         	Board::createCache();
             return $this->redirect(['index']);
@@ -85,7 +85,18 @@ class BoardController extends BaseBackController
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+        	
+        	$parentIds=Board::getParentIds($model['parent_id']);
+        	
+        	if(in_array($model['id'],$parentIds))
+        	{
+        		return $this->redirect(['update','id'=>$id,'message'=>1]);
+        	}
+        	
+        	$model->save();
+        	
+        	Board::createCache();
             return $this->redirect(['index']);
         } else {
         	$locals=[];
@@ -94,7 +105,12 @@ class BoardController extends BaseBackController
             return $this->render('update', $locals);
         }
     }
-
+    
+    public function actionRefresh()
+    {
+    	Board::createCache();
+		return $this->redirect(['index']);
+    }
     /**
      * Deletes an existing Board model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

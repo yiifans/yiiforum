@@ -75,6 +75,33 @@ class BaseView extends View
 		}
 	}
 	
+	public function hasGetValue($key)
+	{
+		return isset($_GET[$key]);
+	}
+	public function getGetValue($key,$default=NULL)
+	{
+		if($this->hasGetValue($key))
+		{
+			return $_GET[$key];
+		}
+		return $default;
+	}
+	
+	public function hasPostValue($key)
+	{
+		return isset($_POST[$key]);
+	}
+	
+	public function getPostValue($key,$default=NULL)
+	{
+		if($this->hasPostValue($key))
+		{
+			return $_POST[$key];
+		}
+		return $default;
+	}
+	
 	public function showTime($time,$format='Y-m-d')
 	{
 		echo date($format,strtotime($time));

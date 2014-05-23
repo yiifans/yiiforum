@@ -50,6 +50,14 @@ foreach ($boardArrayTree as $row)
     <?= $form->field($model, 'name')->textInput(['maxlength' => 32]) ?>
 
     <?= $form->field($model, 'description')->textInput(['maxlength' => 128]) ?>
+    
+    <?= $form->field($model, 'columns')->textInput() ?>
+    
+    <?= $form->field($model, 'sort_num')->textInput() ?>
+    
+    <?= $form->field($model, 'redirect_url')->textInput(['maxlength' => 128]) ?>
+    
+    <?= $form->field($model, 'target')->dropDownList(['_self' => '本窗口','_blank'=>'新窗口']) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

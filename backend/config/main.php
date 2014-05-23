@@ -29,6 +29,9 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+        'view' => [
+	        'class' => 'backend\base\BaseBackView',
+        ],
     ],
     'params' => $params,
 ];

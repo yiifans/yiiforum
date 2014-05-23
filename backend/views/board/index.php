@@ -16,6 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('新建', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('刷新缓存', ['refresh'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <table class="table">

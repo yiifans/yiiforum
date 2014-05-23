@@ -70,11 +70,11 @@ class SiteController extends BaseFrontController
     public function actionIndex()
     {
     	$ret=[];
-    	$boards=Board::findAll(['parent_id'=>0]);
+    	$boards=Board::findAll(['parent_id'=>0],'sort_num desc');
     	foreach ($boards as $board)
     	{
     		$id = $board['id'];
-    		$subBoards=Board::findAll(['parent_id'=>$id]);
+    		$subBoards=Board::findAll(['parent_id'=>$id],'sort_num desc');
     		if(count($subBoards)>0)
     		{
     			$ret[$id] = $subBoards;
