@@ -11,15 +11,15 @@ class TFileHelper
 	
 		foreach ($pathes as $path)
 		{
-			$ret .= DIRECTORY_SEPARATOR.$path;
+			$ret .= $path.DIRECTORY_SEPARATOR;
 		}
-		if(!$withStart)
+		if($withStart)
 		{
-			$ret=ltrim($ret,DIRECTORY_SEPARATOR);
+			$ret = DIRECTORY_SEPARATOR.$ret;
 		}
-		if($withEnd)
+		if(!$withEnd)
 		{
-			$ret.=DIRECTORY_SEPARATOR;
+			$ret = rtrim($ret,DIRECTORY_SEPARATOR);
 		}
 		return $ret;
 	}
