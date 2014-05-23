@@ -1,3 +1,4 @@
+@import "global.css";
 html,
 body {
 	height: 100%;
@@ -89,3 +90,29 @@ a.desc:after {
 	padding: 10px 20px;
 	margin: 0 0 15px 0;
 }
+.dashed-border-b{border-bottom:1px dashed #dedede;}
+.dashed-border-t{border-top:1px dashed #dedede;}
+.padding-b8{padding-bottom:8px;}
+.padding-t8{padding-top:8px;}
+.table th,.table td{border:1px solid #dedede;}
+
+.post{width:100%;}
+.post td{padding:8px;}
+.post td.header{}
+.post td.body{padding:8px 8px;}
+.post td.footer{background:none;height:auto;border-top:none;}
+.post-left-column{border:none;border-right:1px solid #dedede;width:180px;}
+.post-right-column{border:none;}
+
+.post span{margin-right:5px;}
+.post .content{vertical-align:top;}
+
+.author{font-size: 11px;
+font-family: Arial,PMingliu,sans-serif;
+-webkit-text-size-adjust: none;}
+.last-author{font-size: 11px;
+font-family: Arial,PMingliu,sans-serif;
+-webkit-text-size-adjust: none;}
+
+.thread-list{width:100%;}
+.thread-list th,.thread-list td{padding:5px; border-bottom:1px solid #dedede;}

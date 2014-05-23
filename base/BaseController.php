@@ -21,6 +21,33 @@ use common\models\Board;
  */
 class BaseController extends Controller
 {
+	private $_cachedBoards;
+	public function getCachedBoards()
+	{
+		if($this->_cachedBoards==null)
+		{
+			$this->_cachedBoards=$this->getParam('cachedBoards');
+		}
+		return $this->_cachedBoards;
+	}
+	
+	public function getParam($key,$defaultValue=null)
+	{
+		$params = \Yii::$app->params;
+		if(isset($params[$key]))
+		{
+			return $params[$key];
+		}
+		return $defaultValue;
+	}
+	
+	public function setParam($array)
+	{
+		foreach ($array as $key=>$value)
+		{
+			\Yii::$app->params[$key]=$value;
+		}
+	}
 
 	public function checkIsGuest()
 	{

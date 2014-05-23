@@ -77,7 +77,7 @@ class SiteController extends BaseFrontController
     		$subBoards=Board::findAll(['parent_id'=>$id]);
     		if(count($subBoards)>0)
     		{
-    			$ret[$board['name']] = $subBoards;
+    			$ret[$id] = $subBoards;
     		}
     	}
     	

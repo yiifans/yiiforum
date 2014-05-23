@@ -4,6 +4,9 @@ require_once($rootDir . '/base/BaseActiveRecord.php');
 require_once($rootDir . '/base/BaseController.php');
 require_once($rootDir . '/base/BaseModel.php');
 require_once($rootDir . '/base/BaseView.php');
+
+
+
 /*
 require_once($rootDir . '/base/helpers/TStringHelper.php');
 require_once($rootDir . '/base/widgets/TBaseWidget.php');

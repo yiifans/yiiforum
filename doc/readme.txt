@@ -1,7 +1,6 @@
 介绍：
 这个为yii2.0版本，使用yii-advanced-app-2.0.0-beta模板开发，现在刚刚开始，仅仅完成简单的版本、帖子、回帖功能。
-前台页面：frontedn/web/
-后台页面：backedn/web/
+
 
 功能详情见：http://www.yiifans.com/forum.php?mod=viewthread&tid=68
 
@@ -25,5 +24,8 @@ vendor:
 当前，你也可以按从小到大的日期顺序依次执行，然后设置data\sql\upgrade.txt里面的日期为最后安装的sql脚本。
 注：data\sql\upgrade.txt文件必须为可写。
 
+使用：
+前台地址：frontedn/web/
+可直接在前台注册用户，然后登录
 
-
+后台地址：backedn/web/
