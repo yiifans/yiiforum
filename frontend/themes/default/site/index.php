@@ -44,7 +44,7 @@ $this->title = 'My Yii Forum';
    								
    							$href=$this->homeUrl.'?r=thread/index&boardid='.$subBoard['id'];
    							$target='_self';
-   							$ddData='';
+   						
    							if(!empty($subBoard['redirect_url']))
    							{
    								$href=$subBoard['redirect_url'];
@@ -57,15 +57,13 @@ $this->title = 'My Yii Forum';
    								$ddData = '<dd>主题：'.$subBoard['threads'].'&nbsp;回帖：'.$subBoard['posts'].'<dd>';
    								$ddData.= '<dd>最后发表：2014-05-23</dd>';
    							}
-   							
-   							
-   							$dtData = '<dt><a href="'.$href.'" target="'.$target.'">'.$subBoard['name'].'</a><dt>';
-   							
+   							  							
+   							$dtData = '<dt><a href="'.$href.'" target="'.$target.'">'.$subBoard['name'].'</a><dt>';  							
    						}
    						else 
    						{
    							$dtData='<dt>&nbsp;</dt>';
-   							$ddData.='<dd>外部连接</dd>';
+   							$ddData='<dd>&nbsp;</dd>';
    						}
    						$dl='<dl style="margin-bottom:0px;">'.$dtData.$ddData.'</dl>';
    						
