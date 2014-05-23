@@ -36,7 +36,7 @@ class Board extends BaseActiveRecord
     public function rules()
     {
         return [
-            [['parent_id', 'name', 'description','columns', 'sort_num'], 'required'],
+            [['parent_id', 'name', 'columns', 'sort_num'], 'required'],
             [['parent_id', 'columns', 'sort_num', 'threads', 'posts'], 'integer'],
             [['name', 'target'], 'string', 'max' => 32],
             [['description', 'redirect_url'], 'string', 'max' => 128]

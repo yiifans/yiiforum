@@ -36,38 +36,82 @@ $this->title = 'My Yii Forum';
    				for($i=0;$i<$rowsCount;$i++)
    				{
    					$html.='<tr>';
-   					for($j=0;$j<$columnsCount;$j++)
+   					if($columnsCount>1)
    					{
-   						if($counter<$totalRecords)
+	   					for($j=0;$j<$columnsCount;$j++)
+	   					{
+	   						if($counter < $totalRecords)
+	   						{
+	   							$subBoard=$subBoards[$counter];
+	   								
+	   							if(!empty($subBoard['redirect_url']))
+	   							{
+	   								$href=$subBoard['redirect_url'];
+	   								$target=$subBoard['target'];
+	   								
+	   								$dd1='外部链接';
+	   								$dd2='&nbsp;';
+	   							}
+	   							else 
+	   							{
+	   								$href=$this->homeUrl.'?r=thread/index&boardid='.$subBoard['id'];
+	   								$target='_self';
+	   								
+	   								$dd1 = '主题：'.$subBoard['threads'].'&nbsp;回帖：'.$subBoard['posts'].'';
+	   								$dd2= '最后发表：2014-05-23';
+	   							}
+	   							  							
+	   							$a = '<a href="'.$href.'" target="'.$target.'">'.$subBoard['name'].'</a>';  							
+	   						}
+	   						else 
+	   						{
+	   							$a='&nbsp;';
+	   							$dd1='&nbsp;';
+	   							$dd2='&nbsp;';
+	   						}
+	   					
+	   						
+	   						$html.='<td'.$tdWidth.'>';
+	   						$html.='<dl style="margin-bottom:0px;">';
+	   						$html.='<dt>'.$a.'</dt>';
+	   						$html.='<dd>'.$dd1.'</dd>';
+	   						$html.='<dd>'.$dd2.'</dd>';
+	   						$html.='</dl>';
+	   						$html.='</td>';
+	   							
+	   						$counter+=1;
+	   					}
+   					}
+   					else 
+   					{
+   						$subBoard=$subBoards[$counter];
+   						
+   						if(!empty($subBoard['redirect_url']))
    						{
-   							$subBoard=$subBoards[$counter];
-   								
+   							$href=$subBoard['redirect_url'];
+   							$target=$subBoard['target'];
+   						
+   							$description='&nbsp;';
+   							
+   							$td2 = '&nbsp;';
+   							$td3 = '外部链接';
+   						}
+   						else
+   						{
    							$href=$this->homeUrl.'?r=thread/index&boardid='.$subBoard['id'];
    							$target='_self';
    						
-   							if(!empty($subBoard['redirect_url']))
-   							{
-   								$href=$subBoard['redirect_url'];
-   								$target=$subBoard['target'];
-   								
-   								$ddData='<dd>外部链接</dd>';
-   							}
-   							else 
-   							{
-   								$ddData = '<dd>主题：'.$subBoard['threads'].'&nbsp;回帖：'.$subBoard['posts'].'<dd>';
-   								$ddData.= '<dd>最后发表：2014-05-23</dd>';
-   							}
-   							  							
-   							$dtData = '<dt><a href="'.$href.'" target="'.$target.'">'.$subBoard['name'].'</a><dt>';  							
+   							$description='<p style="margin:0px;">'.$subBoard['description'].'</p>';
+   							
+   							$td2 = $subBoard['threads'].'/'.$subBoard['posts'].'';
+   							$td3 = '最后发表：2014-05-23';
    						}
-   						else 
-   						{
-   							$dtData='<dt>&nbsp;</dt>';
-   							$ddData='<dd>&nbsp;</dd>';
-   						}
-   						$dl='<dl style="margin-bottom:0px;">'.$dtData.$ddData.'</dl>';
    						
-   						$html.='<td'.$tdWidth.'>'.$dl.'</td>';
+   						$a = '<a href="'.$href.'" target="'.$target.'">'.$subBoard['name'].'</a>';
+   						
+   						$html.='<td style="vertical-align:middle;">'.$a.$description.'</td>';
+   						$html.='<td style="vertical-align:middle;width:150px;">'.$td2.'</td>';
+   						$html.='<td style="vertical-align:middle;width:220px;">'.$td3.'</td>';
    						
    						$counter+=1;
    					}
