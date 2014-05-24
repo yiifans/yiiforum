@@ -26,7 +26,7 @@ class BaseController extends Controller
 	{
 		if($this->_cachedBoards==null)
 		{
-			$this->_cachedBoards=$this->getParam('cachedBoards');
+			$this->_cachedBoards=YiiForum::getAppParam('cachedBoards');
 		}
 		return $this->_cachedBoards;
 	}

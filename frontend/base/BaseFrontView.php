@@ -20,5 +20,29 @@ use base\BaseView;
  */
 class BaseFrontView extends BaseView
 {
-   
+
+	public function buildBreadcrumbs($bondId)
+	{
+		if(!isset($this->params['breadcrumbs']))
+		{
+			$this->params['breadcrumbs']=[];
+		}
+		
+		
+		$cachedBoards=$this->getCachedBoards();
+		$board=$cachedBoards[$bondId];
+		while (($parentId = $board['parent_id'])!=0)
+		{
+			$breadcrumbs= ['label' => $board['name'], 'url' => ['index&boardid='.$board['id']]];
+			
+			array_unshift($this->params['breadcrumbs'],$breadcrumbs);
+			//$this->params['breadcrumbs'][] = ['label' => $board['name'], 'url' => ['index&boardid='.$board['id']]];
+			
+			$board = $cachedBoards[$parentId];
+		}
+		
+		$breadcrumbs= ['label' => $board['name'], 'url' => ['board/index&boardid='.$board['id']]];
+			
+		array_unshift($this->params['breadcrumbs'],$breadcrumbs);
+	}
 }

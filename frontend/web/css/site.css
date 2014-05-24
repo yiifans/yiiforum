@@ -95,6 +95,8 @@ a.desc:after {
 .padding-b8{padding-bottom:8px;}
 .padding-t8{padding-top:8px;}
 
+.container{width:960px;}
+
 .post{width:100%;}
 .post td{padding:8px;}
 .post td.header{}
@@ -115,3 +117,5 @@ font-family: Arial,PMingliu,sans-serif;
 .smallFont{font-size: 12px;;}
 .thread-list{width:100%;}
 .thread-list th,.thread-list td{padding:5px; border-bottom:1px solid #dedede;}
+
+.boardinfo dl{margin-left: 31px;padding-left: 10px;}

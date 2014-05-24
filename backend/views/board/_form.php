@@ -49,7 +49,11 @@ foreach ($boardArrayTree as $row)
     
     <?= $form->field($model, 'name')->textInput(['maxlength' => 32]) ?>
 
-    <?= $form->field($model, 'description')->textInput(['maxlength' => 128]) ?>
+    <?= $form->field($model, 'icon')->textInput(['maxlength' => 128]) ?>
+    
+    <?= $form->field($model, 'description')->textArea(['rows' => 4]) ?>
+    
+    <?= $form->field($model, 'rule')->textArea(['rows' => 4]) ?>
     
     <?= $form->field($model, 'columns')->textInput() ?>
     

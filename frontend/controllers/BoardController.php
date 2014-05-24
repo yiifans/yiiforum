@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use frontend\base\BaseFrontController;
+use base\YiiForum;
 
 /**
  * BoardController implements the CRUD actions for Board model.
@@ -33,13 +34,13 @@ class BoardController extends BaseFrontController
      */
     public function actionIndex()
     {
-        $searchModel = new BoardSearch;
-        $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
+    	$boardId = YiiForum::getGetValue('boardid');
+    	
+    	$locals=[];
+    	$locals['currentBoard'] = $this->getBoard($boardId);
+    	$locals['boards'] = $this->buildSubBoards($boardId,null);
 
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-            'searchModel' => $searchModel,
-        ]);
+        return $this->render('index', $locals);
     }
 
     /**

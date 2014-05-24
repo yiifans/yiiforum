@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use base\YiiForum;
 
 /**
  * @var yii\web\View $this
@@ -19,7 +20,8 @@ $messageArray[1]='<font color="red">父结点不能为当前结点的子结点</
 
     <?php 
     
-    	$message=$this->getGetValue('message',0);
+    
+    	$message=YiiForum::getGetValue('message',0);
     	if($message==1)
     	{
     		echo $messageArray[$message].'<br>';

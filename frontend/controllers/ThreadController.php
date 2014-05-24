@@ -45,6 +45,7 @@ class ThreadController extends BaseFrontController
 		$locals=YiiForum::getPagedRows($query,['order'=>'create_time desc']);
 		
 		$locals['currentBoard'] = $this->getBoard($boardId);
+		$locals['boards'] = $this->buildSubBoards($boardId);
 		
         return $this->render('index', $locals);
     }

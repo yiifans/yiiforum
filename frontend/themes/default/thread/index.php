@@ -13,11 +13,28 @@ use common\helpers\TTimeHelper;
  */
 
 $this->title = $currentBoard['name'];
-$this->params['breadcrumbs'][] = ['label' => $currentBoard['name'], 'url' => ['index&boardid='.$currentBoard['id']]];
+$this->buildBreadcrumbs($currentBoard['id']);
 ?>
 <div class="thread-index">
 
-
+	<div class="tbox border">
+		
+		<?php 
+			$hd='';
+			$style='';
+			if(empty($currentBoard['rule']))
+			{
+				$style = ' style="border-bottom:none;"';
+			}
+			else 
+			{
+				$hd = '<div class="bd">'.$currentBoard['rule'].'</div>';
+			}
+			$hd = '<div class="hd"'.$style.'><h2>'.$currentBoard['name'].'</h2></div>'.$hd;
+			echo $hd;
+		?>
+	</div>
+	<?php echo $boards;?>
     <div class="tbox">
 	    <div class="floatl">
 	    	<?= Html::a('发帖', ['create&boardid='.$currentBoard['id']], ['class' => 'btn btn-success']) ?>

@@ -31,6 +31,15 @@ class YiiForum
 		}
 		return $homeUrl;
 	}
+	public static function getWebUrl($url=null)
+	{
+		return \Yii::getAlias('@web');
+	}
+	
+	public static function getWebPath()
+	{
+		return \Yii::getAlias('@webroot');
+	}
 	
 	public static function getAppParam($key,$defaultValue=null)
 	{

@@ -15,7 +15,9 @@ use base\YiiForum;
  * @property integer $id
  * @property integer $parent_id
  * @property string $name
+ * @property string $icon
  * @property string $description
+ * @property string $rule
  * @property integer $columns
  * @property integer $sort_num
  * @property string $redirect_url
@@ -48,7 +50,8 @@ class Board extends BaseActiveRecord
             [['parent_id', 'columns', 'sort_num', 'threads', 'posts', 'user_id', 'thread_id'], 'integer'],
             [['modify_time'], 'safe'],
             [['name', 'target', 'user_name'], 'string', 'max' => 32],
-            [['description', 'redirect_url', 'thread_title'], 'string', 'max' => 128]
+            [['icon', 'description', 'redirect_url', 'thread_title'], 'string', 'max' => 128],
+            [['rule'], 'string', 'max' => 256],
         ];
     }
 
@@ -60,8 +63,10 @@ class Board extends BaseActiveRecord
         return [
             'id' => '标号',
             'parent_id' => '父级',
-            'name' => '名称',
-            'description' => '描述',
+            'name' => '板块名称',
+            'icon' => '板块图标',
+            'description' => '板块描述',
+            'rule' => '板块规则',
             'columns' => '子板块列数',
             'sort_num' => '排序',
             'redirect_url' => '转向URL',
@@ -108,12 +113,6 @@ class Board extends BaseActiveRecord
     	Board::updateAll($attributes,['id'=>intval($boardId)]);
     	
     }
-    
-    
-    
-    
-    
-    
     
     
     
@@ -186,7 +185,9 @@ class Board extends BaseActiveRecord
     		$parentIds=Board::getParentIds($id);
     		$content.=Board::getCacheItemValue('parent_ids',implode(',', $parentIds));
     		$content.=Board::getCacheItem('name',$row);
+    		$content.=Board::getCacheItem('icon',$row);
     		$content.=Board::getCacheItem('description',$row);
+    		$content.=Board::getCacheItem('rule',$row);
     		$content.=Board::getCacheItem('columns',$row,true);
     		$content.=Board::getCacheItem('sort_num',$row,true);
     		$content.=Board::getCacheItem('redirect_url',$row);
