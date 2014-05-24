@@ -21,7 +21,7 @@ use base\YiiForum;
  */
 class BaseFrontController extends BaseController
 {
-    private function getBordIcon($href,$target,$name)
+    private function getBoardIcon($href,$target,$name)
     {
     	$src=YiiForum::getWebUrl().'/images/forum.gif';
     	$html='<div class="floatl"><a href="'.$href.'" target="'.$target.'"><img src="'.$src.'" alt="'.$name.'"/></a></div>';
@@ -70,7 +70,7 @@ class BaseFrontController extends BaseController
 			$a = '<a href="'.$href.'" target="'.$target.'">'.$subBoard['name'].'</a>';
 				
 			$html.='<td class="boardinfo" style="vertical-align:middle;">';
-			$html.=$this->getBordIcon($href,$target,$subBoard['name']);
+			$html.=$this->getBoardIcon($href,$target,$subBoard['name']);
 			$html.='<dl style="margin-bottom:0px;">';
 			$html.='<dt>'.$a.'</dt>';
 			if(!empty($description))
@@ -138,7 +138,7 @@ class BaseFrontController extends BaseController
 				$html.='<td class="boardinfo"'.$tdWidth.'>';
 				if($showIcon)
 				{
-					$html.=$this->getBordIcon($href,$target,$subBoard['name']);
+					$html.=$this->getBoardIcon($href,$target,$subBoard['name']);
 				}
 				$html.='<dl style="margin-bottom:0px;">';
 				$html.='<dt>'.$a.'</dt>';

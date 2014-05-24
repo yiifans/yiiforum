@@ -8,7 +8,7 @@ use yii\helpers\Html;
  */
 
 $this->title = '更新帖子: ' . $model->title;
-$this->params['breadcrumbs'][] = ['label' => $currentBoard['name'], 'url' => ['index&boardid='.$currentBoard['id']]];
+$this->buildBreadcrumbs($currentBoard['id']);
 $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>

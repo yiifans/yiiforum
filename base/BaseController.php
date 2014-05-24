@@ -32,8 +32,14 @@ class BaseController extends Controller
 	}
 	
 	
-	public function getBoard($id)
+	public function getBoard($id,$fromCache=True)
 	{
+		if($fromCache)
+		{
+			$cahcedBoards = $this->getCachedBoards();
+			return $cahcedBoards[$id];
+		}
+		
 		return Board::findOne(['id'=>$id]);
 	}
 	

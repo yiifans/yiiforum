@@ -8,7 +8,7 @@ use yii\helpers\Html;
  */
 
 $this->title = '发表帖子';
-$this->params['breadcrumbs'][] = ['label' => $currentBoard['name'], 'url' => ['index&boardid='.$currentBoard['id']]];
+$this->buildBreadcrumbs($currentBoard['id']);
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="thread-create">
