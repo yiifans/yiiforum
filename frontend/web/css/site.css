@@ -101,7 +101,9 @@ a.desc:after {
 .post td{padding:8px;}
 .post td.header{}
 .post td.body{padding:8px 8px;}
-.post td.footer{background:none;height:auto;border-top:none;}
+.post td.footer{background:none;height:auto;border-top:none;padding:0px;}
+.post td.footer div{margin:8px;padding-top:8px;}
+
 .post-left-column{border:none;border-right:1px solid #dedede;width:180px;}
 .post-right-column{border:none;}
 

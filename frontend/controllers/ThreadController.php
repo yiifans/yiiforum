@@ -40,9 +40,9 @@ class ThreadController extends BaseFrontController
     {
     	$boardId=YiiForum::getGetValue('boardid');
     	
-    	$query=Thread::find()->where(['board_id'=>$boardId]);
+    	$query=Thread::find()->where(['board_id'=>$boardId,'status'=>1]);
     	
-		$locals=YiiForum::getPagedRows($query,['order'=>'create_time desc']);
+		$locals=YiiForum::getPagedRows($query,['order'=>'last_modify_time desc']);
 		
 		$locals['currentBoard'] = $this->getBoard($boardId);
 		$locals['boards'] = $this->buildSubBoards($boardId);
@@ -87,18 +87,16 @@ class ThreadController extends BaseFrontController
 
         if ($model->load(Yii::$app->request->post())) {
         	$model->board_id=$boardId;
-        	$model->user_id=YiiForum::getIdentity()->id;
-        	$model->user_name=YiiForum::getIdentity()->username;
-        	$model->create_time=TTimeHelper::getCurrentTime();
-        	$model->modify_time=TTimeHelper::getCurrentTime();
+        	$model->user_id=$model->last_user_id=YiiForum::getIdentity()->id;
+        	$model->user_name=$model->last_user_name=YiiForum::getIdentity()->username;
+        	$model->create_time=$model->modify_time=$model->last_modify_time=TTimeHelper::getCurrentTime();
+        	
         	if($model->save())
         	{
         		$this->savePostForThread($model);
         	}
         	
         	Board::updateLastData($boardId, $model['id'], $model['title']);
-        	
-        	//$this->info($model,__METHOD__);
         	
             return $this->redirect(['view', 'id' => $model->id, 'boardid'=>$boardId]);
         } else {
@@ -149,36 +147,7 @@ class ThreadController extends BaseFrontController
 		
 	}
 	
-	public function actionNewPost()
-	{
-		YiiForum::checkIsGuest();
-		
-		$data=YiiForum::getPostValue('Post');
-		
-		$boardId=$data['board_id'];
-		$threadId=$data['thread_id'];
-		$threadTitle=$data['thread_title'];
-		
-		$post = new Post;
-		$post->thread_id=$threadId;
-		$post->user_id=YiiForum::getIdentity()->id;
-		$post->user_name=YiiForum::getIdentity()->username;
-		$post->title=isset($data['title'])?$data['title']:'';
-		$post->body=$data['body'];
-		$post->create_time=TTimeHelper::getCurrentTime();
-		$post->modify_time=TTimeHelper::getCurrentTime();
-		$post->supports=0;
-		$post->againsts=0;
-		$post->floor=0;
-		$post->note='';
-		if($post->save())
-		{
-			Thread::updateAllCounters(['posts'=>1],['id'=>$threadId]);
-			Board::updateLastData($boardId, $threadId, $threadTitle,false);
-		}
-	
-		return $this->redirect(['view', 'id' => $post->thread_id]);
-	}
+
 
     /**
      * Updates an existing Thread model.
@@ -256,5 +225,66 @@ class ThreadController extends BaseFrontController
         }
     }
     
+    public function actionNewPost()
+    {
+    	YiiForum::checkIsGuest();
+    
+    	$data=YiiForum::getPostValue('Post');
+    
+    	$boardId=$data['board_id'];
+    	$threadId=$data['thread_id'];
+    	$threadTitle=$data['thread_title'];
+    
+    	$post = new Post;
+    	$post->thread_id=$threadId;
+    	$post->user_id=YiiForum::getIdentity()->id;
+    	$post->user_name=YiiForum::getIdentity()->username;
+    	$post->title=isset($data['title'])?$data['title']:'';
+    	$post->body=$data['body'];
+    	$post->create_time=TTimeHelper::getCurrentTime();
+    	$post->modify_time=TTimeHelper::getCurrentTime();
+    	$post->supports=0;
+    	$post->againsts=0;
+    	$post->floor=0;
+    	$post->note='';
+    	if($post->save())
+    	{
+    		Thread::updateLastData($threadId);
+    		Board::updateLastData($boardId, $threadId, $threadTitle,false);
+    	}
+    
+    	return $this->redirect(['view', 'id' => $threadId]);
+    }
+    
+    
+    public function actionEditPost($id)
+    {
+    	YiiForum::checkIsGuest();
+    
+    	$boardId=YiiForum::getGetValue('boardid');
+    	
+    	$model = Post::findOne(['id'=>$id]);
+    	
+    	$data=YiiForum::getPostValue('Post');
+    
+    	if($data == null)
+    	{
+    		$thread = Thread::findOne(['id' => $model['thread_id']]);
+    		
+    		$locals=[];
+    		$locals['thread']=$thread;
+    		$locals['currentBoard']=$this->getBoard($boardId);
+    		$locals['model']=$model;
+    		return $this->render('editpost',$locals);
+    	}
+    	else 
+    	{
+    		$model->load(Yii::$app->request->post());
+    		$model->modify_time=TTimeHelper::getCurrentTime();
+    		$model->save();
+    		return $this->redirect(['view', 'id' => $model->thread_id]);
+    	
+    	}
+    }
     
 }

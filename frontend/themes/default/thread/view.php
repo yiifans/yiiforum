@@ -20,14 +20,6 @@ $this->params['breadcrumbs'][] = $this->title;
 	<div class="tbox">
 		<div class="floatl">
 			<?= Html::a('发帖', ['create&boardid='.$currentBoard['id']], ['class' => 'btn btn-success']) ?>
-		        <?= Html::a('更新', ['update', 'id' => $thread->id], ['class' => 'btn btn-primary']) ?>
-		        <?= Html::a('删除', ['delete', 'id' => $thread->id], [
-		            'class' => 'btn btn-danger',
-		            'data' => [
-		                'confirm' => 'Are you sure you want to delete this item?',
-		                'method' => 'post',
-		            ],
-		        ]) ?>
 		</div>
 		<div class="floatr">
 			<?php echo LinkPager::widget([
@@ -84,15 +76,35 @@ $this->params['breadcrumbs'][] = $this->title;
 	    				</div>
 		    		</td>
 		    	</tr>
+		    	<?php if($row['user_id']==YiiForum::getIdentity()->id):?>
 		    	<tr>
 		    		<td class="post-left-column footer">
 		    		</td>
 		    		<td class="post-right-column footer">
-		    			<div class="dashed-border-t padding-t8">
-	    					<span>回复</span><span>编辑</span><span>支持</span><span>反对</span>
+		    			<div class="dashed-border-t">
+	    					<span>回复</span>
+	    					<span>
+	    					<?php 
+	    						if($floor==1)
+	    						{
+	    							echo Html::a('编辑', ['update', 'id' =>$thread['id'],'boardid'=>$currentBoard['id']]).'</span><span>';
+	    							echo Html::a('删除', ['delete', 'id' =>$thread->id,'boardid'=>$currentBoard['id']], [
+		    							'data' => [
+			    							'confirm' => 'Are you sure you want to delete this item?',
+			    							'method' => 'post',
+		    							],
+	    							]);
+	    						}
+	    						else 
+	    						{
+	    							echo Html::a('编辑', ['edit-post&id='.$row['id'].'&boardid='.$currentBoard['id']]);	
+	    						}
+	    					?>
+	    					</span><span>支持</span><span>反对</span>
 	    				</div>
 		    		</td>
 		    	</tr>
+		    	<?php endif;?>
 		    </table>
 	    </div>
 	    <?php }?>
@@ -100,14 +112,6 @@ $this->params['breadcrumbs'][] = $this->title;
    	<div class="tbox">
 		<div class="floatl">
 			<?= Html::a('发帖', ['create&boardid='.$currentBoard['id']], ['class' => 'btn btn-success']) ?>
-		        <?= Html::a('更新', ['update', 'id' => $thread->id], ['class' => 'btn btn-primary']) ?>
-		        <?= Html::a('删除', ['delete', 'id' => $thread->id], [
-		            'class' => 'btn btn-danger',
-		            'data' => [
-		                'confirm' => 'Are you sure you want to delete this item?',
-		                'method' => 'post',
-		            ],
-		        ]) ?>
 		</div>
 		<div class="floatr">
 			<?php echo LinkPager::widget([

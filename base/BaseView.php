@@ -29,5 +29,19 @@ class BaseView extends View
 		return $this->_cachedBoards;
 	}
 	
+	public function addBreadcrumb()
+	{
+		$argsCount = func_num_args();
+		$args = func_get_args();
+		
+		if($argsCount == 1)
+		{
+			$this->params['breadcrumbs'][]=$args[0];
+		}
+		else if($argsCount == 2)
+		{
+			$this->params['breadcrumbs'][] = ['label' => $args[0], 'url' => $args[1]];
+		}
+	}
 	
 }

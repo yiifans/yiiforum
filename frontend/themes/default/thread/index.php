@@ -59,7 +59,7 @@ $this->buildBreadcrumbs($currentBoard['id']);
 	    		<td><a href="<?php echo YiiForum::getHomeUrl().'?r=thread/view&id='.$row['id']?>"><?php echo $row['title'];?></a></td>
 	    		<td class="author"><?php echo $row['user_name'];?><br/><?php TTimeHelper::showTime($row['create_time']);?></td>
 	    		<td><?php echo $row['posts'];?>/<?php echo $row['views']?></td>
-	    		<td class="last-author"><?php echo $row['user_name'];?><br/><?php echo TTimeHelper::showTime($row['create_time'],'Y-m-d H:i');?></td>
+	    		<td class="last-author"><?php echo $row['last_user_name'];?><br/><?php echo TTimeHelper::showTime($row['last_modify_time'],'Y-m-d H:i');?></td>
 	    	</tr>
 	    	<?php endforeach;?>
 	    </table>

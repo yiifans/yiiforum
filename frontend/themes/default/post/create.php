@@ -8,8 +8,9 @@ use yii\helpers\Html;
  */
 
 $this->title = 'Create Post';
-$this->params['breadcrumbs'][] = ['label' => 'Posts', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->addBreadcrumb('Posts',['index']);
+$this->addBreadcrumb($this->title);
+
 ?>
 <div class="post-create">
 
