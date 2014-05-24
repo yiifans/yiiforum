@@ -24,86 +24,10 @@ class BaseView extends View
 	{
 		if($this->_cachedBoards==null)
 		{
-			$this->_cachedBoards=$this->getParam('cachedBoards');
+			$this->_cachedBoards=YiiForum::getAppParam('cachedBoards');
 		}
 		return $this->_cachedBoards;
 	}
 	
-	public function getParam($key,$defaultValue=null)
-	{
-		$params = \Yii::$app->params;
-		if(isset($params[$key]))
-		{
-			return $params[$key];
-		}
-		return $defaultValue;
-	}
 	
-	public function setParam($array)
-	{
-		foreach ($array as $key=>$value)
-		{
-			\Yii::$app->params[$key]=$value;
-		}
-	}
-	
-	public function getHomeUrl($url=null)
-	{
-		$homeUrl = \Yii::$app->getHomeUrl();
-		if($url!==null)
-		{
-			$homeUrl.=$url;
-		}
-		return $homeUrl;
-	}
-	
-	public function getViewParam($key,$defaultValue=null)
-	{
-		$params=$this->params;
-		if(isset($params[$key]))
-		{
-			return $params[$key];
-		}
-		return $defaultValue;
-	}
-	public function setViewParam($array)
-	{
-		$params=$this->params;
-		foreach ($array as $name=>$value)
-		{
-			$params[$name]=$value;
-		}
-	}
-	
-	public function hasGetValue($key)
-	{
-		return isset($_GET[$key]);
-	}
-	public function getGetValue($key,$default=NULL)
-	{
-		if($this->hasGetValue($key))
-		{
-			return $_GET[$key];
-		}
-		return $default;
-	}
-	
-	public function hasPostValue($key)
-	{
-		return isset($_POST[$key]);
-	}
-	
-	public function getPostValue($key,$default=NULL)
-	{
-		if($this->hasPostValue($key))
-		{
-			return $_POST[$key];
-		}
-		return $default;
-	}
-	
-	public function showTime($time,$format='Y-m-d')
-	{
-		echo date($format,strtotime($time));
-	}
 }

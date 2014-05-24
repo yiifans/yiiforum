@@ -5,6 +5,9 @@ namespace common\models;
 use Yii;
 use base\BaseActiveRecord;
 use common\helpers\TFileHelper;
+use yii\db\Expression;
+use common\helpers\TTimeHelper;
+use base\YiiForum;
 
 /**
  * This is the model class for table "board".
@@ -19,6 +22,11 @@ use common\helpers\TFileHelper;
  * @property string $target
  * @property integer $threads
  * @property integer $posts
+ * @property string $modify_time
+ * @property integer $user_id
+ * @property string $user_name
+ * @property integer $thread_id
+ * @property string $thread_title
  */
 class Board extends BaseActiveRecord
 {
@@ -37,9 +45,10 @@ class Board extends BaseActiveRecord
     {
         return [
             [['parent_id', 'name', 'columns', 'sort_num'], 'required'],
-            [['parent_id', 'columns', 'sort_num', 'threads', 'posts'], 'integer'],
-            [['name', 'target'], 'string', 'max' => 32],
-            [['description', 'redirect_url'], 'string', 'max' => 128]
+            [['parent_id', 'columns', 'sort_num', 'threads', 'posts', 'user_id', 'thread_id'], 'integer'],
+            [['modify_time'], 'safe'],
+            [['name', 'target', 'user_name'], 'string', 'max' => 32],
+            [['description', 'redirect_url', 'thread_title'], 'string', 'max' => 128]
         ];
     }
 
@@ -59,6 +68,11 @@ class Board extends BaseActiveRecord
             'target' => '打开方式',
             'threads' => '主题数',
             'posts' => '回帖数',
+            'modify_time' => '更新时间',
+            'user_id' => '用户ID',
+            'user_name' => '用户',
+            'thread_id' => '主题ID',
+            'thread_title' => '主题',
         ];
     }
     private $_level;
@@ -70,6 +84,40 @@ class Board extends BaseActiveRecord
     {
     	$this->_level=$value;
     }
+
+    public static  function updateLastData($boardId,$threadId,$threadTitle,$isThread=True)
+    {
+    	$attributes=[];
+    	$attributes['modify_time']=TTimeHelper::getCurrentTime();
+    	if($isThread)
+    	{
+    		$attributes['threads'] = new Expression("[[threads]]+:bp0", [":bp0" => 1]);
+    	}
+    	else 
+    	{
+    		$attributes['posts'] = new Expression("[[posts]]+:bp0", [":bp0" => 1]);
+    	}
+    	
+    	$attributes['user_id']=YiiForum::getIdentity()->id;
+    	$attributes['user_name']=YiiForum::getIdentity()->username;
+    	$attributes['thread_id']=$threadId;
+    	$attributes['thread_title']=$threadTitle;
+   
+    	YiiForum::info($attributes);
+    	
+    	Board::updateAll($attributes,['id'=>intval($boardId)]);
+    	
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     private static function  _getBoardArrayTree($parentId=0,$level=0)
     {

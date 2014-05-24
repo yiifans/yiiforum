@@ -112,6 +112,6 @@ font-family: Arial,PMingliu,sans-serif;
 .last-author{font-size: 11px;
 font-family: Arial,PMingliu,sans-serif;
 -webkit-text-size-adjust: none;}
-
+.smallFont{font-size: 12px;;}
 .thread-list{width:100%;}
 .thread-list th,.thread-list td{padding:5px; border-bottom:1px solid #dedede;}

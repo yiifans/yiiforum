@@ -12,6 +12,8 @@ use frontend\base\BaseFrontController;
 use common\models\Board;
 use common\models\Post;
 use yii\data\Pagination;
+use base\YiiForum;
+use common\helpers\TTimeHelper;
 
 /**
  * ThreadController implements the CRUD actions for Thread model.
@@ -36,11 +38,11 @@ class ThreadController extends BaseFrontController
      */
     public function actionIndex()
     {
-    	$boardId=$this->getGetValue('boardid');
+    	$boardId=YiiForum::getGetValue('boardid');
     	
     	$query=Thread::find()->where(['board_id'=>$boardId]);
     	
-		$locals=$this->getPagedRows($query,['order'=>'create_time desc']);
+		$locals=YiiForum::getPagedRows($query,['order'=>'create_time desc']);
 		
 		$locals['currentBoard'] = $this->getBoard($boardId);
 		
@@ -60,7 +62,7 @@ class ThreadController extends BaseFrontController
     	
     	$query=Post::find()->where(['thread_id'=>$thread['id']]);
     	
-    	$locals=$this->getPagedRows($query,['order'=>'create_time asc','pageSize'=>10]);
+    	$locals=YiiForum::getPagedRows($query,['order'=>'create_time asc','pageSize'=>10]);
     	
     	$locals['currentBoard']=$this->getBoard($thread['board_id']);
     	$locals['thread']=$thread;
@@ -76,23 +78,24 @@ class ThreadController extends BaseFrontController
      */
     public function actionCreate()
     {
-    	$this->checkIsGuest();
+    	YiiForum::checkIsGuest();
     	
-    	$boardId=$this->getGetValue('boardid');
+    	$boardId=YiiForum::getGetValue('boardid');
     	
         $model = new Thread;
 
         if ($model->load(Yii::$app->request->post())) {
         	$model->board_id=$boardId;
-        	$model->user_id=$this->identity->id;
-        	$model->user_name=$this->identity->username;
-        	$model->create_time=$this->getCurrentTime();
-        	$model->modify_time=$this->getCurrentTime();
+        	$model->user_id=YiiForum::getIdentity()->id;
+        	$model->user_name=YiiForum::getIdentity()->username;
+        	$model->create_time=TTimeHelper::getCurrentTime();
+        	$model->modify_time=TTimeHelper::getCurrentTime();
         	if($model->save())
         	{
         		$this->savePostForThread($model);
         	}
         	
+        	Board::updateLastData($boardId, $model['id'], $model['title']);
         	
         	//$this->info($model,__METHOD__);
         	
@@ -109,7 +112,7 @@ class ThreadController extends BaseFrontController
     
 	private function savePostForThread($thread,$post=null)
 	{
-		$data=$this->getPostValue('Thread');
+		$data=YiiForum::getPostValue('Thread');
 		
 		if($post==null)
 		{
@@ -140,26 +143,29 @@ class ThreadController extends BaseFrontController
 			//$post->floor=0;
 			//$post->note='';
 		}
-		$this->info($post);
+		
 		$post->save();
-		$this->info($post);
+		
 	}
 	
 	public function actionNewPost()
 	{
-		$this->checkIsGuest();
+		YiiForum::checkIsGuest();
 		
-		$data=$this->getPostValue('Post');
+		$data=YiiForum::getPostValue('Post');
+		
+		$boardId=$data['board_id'];
 		$threadId=$data['thread_id'];
-	
+		$threadTitle=$data['thread_title'];
+		
 		$post = new Post;
 		$post->thread_id=$threadId;
-		$post->user_id=$this->identity->id;
-		$post->user_name=$this->identity->username;
+		$post->user_id=YiiForum::getIdentity()->id;
+		$post->user_name=YiiForum::getIdentity()->username;
 		$post->title=isset($data['title'])?$data['title']:'';
 		$post->body=$data['body'];
-		$post->create_time=$this->getCurrentTime();
-		$post->modify_time=$this->getCurrentTime();
+		$post->create_time=TTimeHelper::getCurrentTime();
+		$post->modify_time=TTimeHelper::getCurrentTime();
 		$post->supports=0;
 		$post->againsts=0;
 		$post->floor=0;
@@ -167,6 +173,7 @@ class ThreadController extends BaseFrontController
 		if($post->save())
 		{
 			Thread::updateAllCounters(['posts'=>1],['id'=>$threadId]);
+			Board::updateLastData($boardId, $threadId, $threadTitle,false);
 		}
 	
 		return $this->redirect(['view', 'id' => $post->thread_id]);
@@ -180,25 +187,25 @@ class ThreadController extends BaseFrontController
      */
     public function actionUpdate($id)
     {
-    	$this->checkIsGuest();
+    	YiiForum::checkIsGuest();
     	
         $model = $this->findModel($id);
         $boardId=$model['board_id'];
         
-        $post=Post::find()->where(['thread_id'=>$model['id']])->orderBy('create_time asc')->one();
+        $post=Post::findOne(['thread_id'=>$model['id']],'create_time asc');
 		
         if ($model->load(Yii::$app->request->post())) {
         	//$model->board_id=$boardId;
         	//$model->user_id=0;
         	//$model->user_name='admin';
         	//$model->create_time=$this->getCurrentTime();
-        	$model->modify_time=$this->getCurrentTime();
+        	$model->modify_time=TTimeHelper::getCurrentTime();
         	if($model->save())
         	{
-        		$this->info($post);
+        		YiiForum::info($post);
         		$this->savePostForThread($model,$post);
         	}
-        	$this->info($model,__METHOD__);
+        	YiiForum::info($model,__METHOD__);
         	 
         	return $this->redirect(['view', 'id' => $model->id, 'boardid'=>$boardId]);
         } else {
@@ -222,7 +229,7 @@ class ThreadController extends BaseFrontController
      */
     public function actionDelete($id)
     {
-    	$this->checkIsGuest();
+    	YiiForum::checkIsGuest();
     	
     	$thread=$this->findModel($id);
     	$thread->delete();

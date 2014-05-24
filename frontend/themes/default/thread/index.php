@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\LinkPager;
+use base\YiiForum;
+use common\helpers\TTimeHelper;
 
 /**
  * @var yii\web\View $this
@@ -37,10 +39,10 @@ $this->params['breadcrumbs'][] = ['label' => $currentBoard['name'], 'url' => ['i
 	    	</tr>
 	    	<?php foreach ($rows as $row ):?>
 	    	<tr>
-	    		<td><a href="<?php echo $this->homeUrl.'?r=thread/view&id='.$row['id']?>"><?php echo $row['title'];?></a></td>
-	    		<td class="author"><?php echo $row['user_name'];?><br/><?php $this->showTime($row['create_time']);?></td>
+	    		<td><a href="<?php echo YiiForum::getHomeUrl().'?r=thread/view&id='.$row['id']?>"><?php echo $row['title'];?></a></td>
+	    		<td class="author"><?php echo $row['user_name'];?><br/><?php TTimeHelper::showTime($row['create_time']);?></td>
 	    		<td><?php echo $row['posts'];?>/<?php echo $row['views']?></td>
-	    		<td class="last-author"><?php echo $row['user_name'];?><br/><?php echo $this->showTime($row['create_time'],'Y-m-d H:i');?></td>
+	    		<td class="last-author"><?php echo $row['user_name'];?><br/><?php echo TTimeHelper::showTime($row['create_time'],'Y-m-d H:i');?></td>
 	    	</tr>
 	    	<?php endforeach;?>
 	    </table>

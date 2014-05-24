@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\widgets\ActiveForm;
 use yii\widgets\LinkPager;
+use base\YiiForum;
 
 /**
  * @var yii\web\View $this
@@ -117,10 +118,12 @@ $this->params['breadcrumbs'][] = $this->title;
    <div class="tbox">
        <?php $form = ActiveForm::begin([
 				'id'=>'newPost',
-	    		'action' => $this->homeUrl.'?r=thread/new-post&thread='.$thread['id'],
+	    		'action' => YiiForum::getHomeUrl().'?r=thread/new-post&thread='.$thread['id'],
 		]); ?>
 	
+			<input type="hidden" id="post-board_id" name="Post[board_id]" value="<?php echo $currentBoard['id']?>"/>
 	    	<input type="hidden" id="post-thread_id" name="Post[thread_id]" value="<?php echo $thread['id']?>"/>
+	    	<input type="hidden" id="post-thread_title" name="Post[thread_title]" value="<?php echo $thread['title']?>"/>
 	    	
 	    	<?= $form->field($newPost, 'body',['template'=>"回帖\n{input}\n{hint}\n{error}"])->textarea(['rows' => 6]) ?>
 	    	

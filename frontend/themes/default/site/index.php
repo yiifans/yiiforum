@@ -1,4 +1,5 @@
 <?php
+use base\YiiForum;
 /**
  * @var yii\web\View $this
  */
@@ -54,11 +55,11 @@ $this->title = 'My Yii Forum';
 	   							}
 	   							else 
 	   							{
-	   								$href=$this->homeUrl.'?r=thread/index&boardid='.$subBoard['id'];
+	   								$href=YiiForum::getHomeUrl().'?r=thread/index&boardid='.$subBoard['id'];
 	   								$target='_self';
 	   								
 	   								$dd1 = '主题：'.$subBoard['threads'].'&nbsp;回帖：'.$subBoard['posts'].'';
-	   								$dd2= '最后发表：2014-05-23';
+	   								$dd2= '最后发表：'.$subBoard['modify_time'];
 	   							}
 	   							  							
 	   							$a = '<a href="'.$href.'" target="'.$target.'">'.$subBoard['name'].'</a>';  							
@@ -98,20 +99,21 @@ $this->title = 'My Yii Forum';
    						}
    						else
    						{
-   							$href=$this->homeUrl.'?r=thread/index&boardid='.$subBoard['id'];
+   							$href=YiiForum::getHomeUrl().'?r=thread/index&boardid='.$subBoard['id'];
    							$target='_self';
    						
    							$description='<p style="margin:0px;">'.$subBoard['description'].'</p>';
    							
    							$td2 = $subBoard['threads'].'/'.$subBoard['posts'].'';
-   							$td3 = '最后发表：2014-05-23';
+   							$td3 ='<a href="'.YiiForum::getHomeUrl().'?r=thread/view&id='.$subBoard['thread_id'].'"/>'.$subBoard['thread_title'].'</a>';
+   							$td3.= '<br>最后发表：'.$subBoard['modify_time'];
    						}
    						
    						$a = '<a href="'.$href.'" target="'.$target.'">'.$subBoard['name'].'</a>';
    						
    						$html.='<td style="vertical-align:middle;">'.$a.$description.'</td>';
    						$html.='<td style="vertical-align:middle;width:150px;">'.$td2.'</td>';
-   						$html.='<td style="vertical-align:middle;width:220px;">'.$td3.'</td>';
+   						$html.='<td class="smallFont" style="vertical-align:middle;width:220px;">'.$td3.'</td>';
    						
    						$counter+=1;
    					}
