@@ -13,7 +13,7 @@ use base\YiiForum;
 
 //$this->params['breadcrumbs'][] = ['label' => $currentBoard['name'], 'url' => ['index&board='.$currentBoard['id']]];
 $this->title = $thread->title;
-$this->params['breadcrumbs'][] = ['label' => $currentBoard['name'], 'url' => ['index&boardid='.$currentBoard['id']]];
+$this->buildBreadcrumbs($currentBoard['id']);
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="thread-view">
