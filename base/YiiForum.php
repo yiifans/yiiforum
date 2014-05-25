@@ -5,6 +5,7 @@ use Yii;
 use common\models\LoginForm;
 use yii\data\Pagination;
 use yii\helpers\VarDumper;
+use yii\helpers\Url;
 
 /**
  * Site controller
@@ -20,6 +21,14 @@ class YiiForum
 	{
 		$view = \Yii::$app->getView();
 		return $view;
+	}
+	public static function getRequest()
+	{
+		return \Yii::$app->request;
+	}
+	public static function getResponse()
+	{
+		return \Yii::$app->response;
 	}
 	
 	public static function getHomeUrl($url=null)
@@ -126,7 +135,7 @@ class YiiForum
 		$isGuest = Yii::$app->user->isGuest;
 		if($isGuest)
 		{
-			return $this->redirect(['site/login']);
+			return Yii::$app->getResponse()->redirect(Url::to(['site/login']), 302);
 		}
 		return true;
 	}

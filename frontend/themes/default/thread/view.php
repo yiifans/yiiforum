@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="thread-view">
 	<div class="tbox">
 		<div class="floatl">
-			<?= Html::a('发帖', ['create&boardid='.$currentBoard['id']], ['class' => 'btn btn-success']) ?>
+			<?= Html::a('发帖', ['new-thread','boardid'=>$currentBoard['id']], ['class' => 'btn btn-success']) ?>
 		</div>
 		<div class="floatr">
 			<?php echo LinkPager::widget([
@@ -87,7 +87,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	    					<?php 
 	    						if($floor==1)
 	    						{
-	    							echo Html::a('编辑', ['update', 'id' =>$thread['id'],'boardid'=>$currentBoard['id']]).'</span><span>';
+	    							echo Html::a('编辑', ['edit-thread', 'id' =>$thread['id'],'boardid'=>$currentBoard['id']]).'</span><span>';
 	    							echo Html::a('删除', ['delete', 'id' =>$thread->id,'boardid'=>$currentBoard['id']], [
 		    							'data' => [
 			    							'confirm' => 'Are you sure you want to delete this item?',
@@ -97,7 +97,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	    						}
 	    						else 
 	    						{
-	    							echo Html::a('编辑', ['edit-post&id='.$row['id'].'&boardid='.$currentBoard['id']]);	
+	    							echo Html::a('编辑', ['edit-post','id'=>$row['id'],'boardid'=>$currentBoard['id']]);	
 	    						}
 	    					?>
 	    					</span><span>支持</span><span>反对</span>
@@ -111,7 +111,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
    	<div class="tbox">
 		<div class="floatl">
-			<?= Html::a('发帖', ['create&boardid='.$currentBoard['id']], ['class' => 'btn btn-success']) ?>
+			<?= Html::a('发帖', ['new-thread','boardid'=>$currentBoard['id']], ['class' => 'btn btn-success']) ?>
 		</div>
 		<div class="floatr">
 			<?php echo LinkPager::widget([
@@ -122,14 +122,17 @@ $this->params['breadcrumbs'][] = $this->title;
    <div class="tbox">
        <?php $form = ActiveForm::begin([
 				'id'=>'newPost',
-	    		'action' => YiiForum::getHomeUrl().'?r=thread/new-post&thread='.$thread['id'],
+	    		'action' => YiiForum::getHomeUrl().'?r=thread/new-post&threadid='.$thread['id'],
 		]); ?>
 	
 			<input type="hidden" id="post-board_id" name="Post[board_id]" value="<?php echo $currentBoard['id']?>"/>
 	    	<input type="hidden" id="post-thread_id" name="Post[thread_id]" value="<?php echo $thread['id']?>"/>
 	    	<input type="hidden" id="post-thread_title" name="Post[thread_title]" value="<?php echo $thread['title']?>"/>
 	    	
-	    	<?= $form->field($newPost, 'body',['template'=>"回帖\n{input}\n{hint}\n{error}"])->textarea(['rows' => 6]) ?>
+	    	<?php
+	    		$label='回帖'.Html::a('(高级)', ['new-post','threadid'=>$thread['id'],'boardid'=>$currentBoard['id']]);
+	    		echo $form->field($newPost, 'body',['template'=>"'.$label.'\n{input}\n{hint}\n{error}"])->textarea(['rows' => 6]);
+	    	 ?>
 	    	
 		    <div class="form-group">
 		        <?= Html::submitButton('回帖', ['class' => 'btn btn-success']) ?>

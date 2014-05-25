@@ -77,7 +77,7 @@ class ThreadController extends BaseFrontController
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionNewThread()
     {
     	YiiForum::checkIsGuest();
     	
@@ -103,7 +103,7 @@ class ThreadController extends BaseFrontController
         	$locals=[];
         	$locals['model']=$model;
         	$locals['currentBoard']=$this->getBoard($boardId);
-            return $this->render('create', $locals);
+            return $this->render('new-thread', $locals);
         }
     }
     
@@ -155,7 +155,7 @@ class ThreadController extends BaseFrontController
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionEditThread($id)
     {
     	YiiForum::checkIsGuest();
     	
@@ -187,7 +187,7 @@ class ThreadController extends BaseFrontController
         	$locals=[];
         	$locals['currentBoard']=$this->getBoard($boardId);
         	$locals['model']=$model;
-            return $this->render('update', $locals);
+            return $this->render('edit-thread', $locals);
         }
     }
 
@@ -229,13 +229,28 @@ class ThreadController extends BaseFrontController
     {
     	YiiForum::checkIsGuest();
     
+    	$post = new Post;
+    	
+    	$threadId=YiiForum::getGetValue('threadid');
+    	
     	$data=YiiForum::getPostValue('Post');
     
+    	if($data==null)
+    	{
+    		$thread = Thread::findOne(['id' => $threadId]);
+    		
+    		$locals=[];
+    		$locals['thread']=$thread;
+    		$locals['currentBoard']=$this->getBoard($thread['board_id']);
+    		$locals['model']=$post;
+    		return $this->render('new-post',$locals);
+    	}
+    	
     	$boardId=$data['board_id'];
     	$threadId=$data['thread_id'];
     	$threadTitle=$data['thread_title'];
     
-    	$post = new Post;
+    	
     	$post->thread_id=$threadId;
     	$post->user_id=YiiForum::getIdentity()->id;
     	$post->user_name=YiiForum::getIdentity()->username;
@@ -275,7 +290,7 @@ class ThreadController extends BaseFrontController
     		$locals['thread']=$thread;
     		$locals['currentBoard']=$this->getBoard($boardId);
     		$locals['model']=$model;
-    		return $this->render('editpost',$locals);
+    		return $this->render('edit-post',$locals);
     	}
     	else 
     	{

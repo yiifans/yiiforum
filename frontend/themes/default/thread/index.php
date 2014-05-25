@@ -37,7 +37,7 @@ $this->buildBreadcrumbs($currentBoard['id']);
 	<?php echo $boards;?>
     <div class="tbox">
 	    <div class="floatl">
-	    	<?= Html::a('发帖', ['create&boardid='.$currentBoard['id']], ['class' => 'btn btn-success']) ?>
+	    	<?= Html::a('发帖', ['new-thread','boardid'=>$currentBoard['id']], ['class' => 'btn btn-success']) ?>
 	    </div>
 	    <div class="floatr">
 		    <?php echo LinkPager::widget([
@@ -67,7 +67,7 @@ $this->buildBreadcrumbs($currentBoard['id']);
     
     <div class="tbox">
 	    <div class="floatl">
-	    	<?= Html::a('发帖', ['create&boardid='.$currentBoard['id']], ['class' => 'btn btn-success']) ?>
+	    	<?= Html::a('发帖', ['new-thread','boardid'=>$currentBoard['id']], ['class' => 'btn btn-success']) ?>
 	    </div>
 	    <div class="floatr">
 		    <?php echo LinkPager::widget([
