@@ -1,7 +1,5 @@
 <?php
-
 namespace frontend\controllers;
-
 use Yii;
 use common\models\Board;
 use common\models\search\BoardSearch;
@@ -16,107 +14,141 @@ use base\YiiForum;
  */
 class BoardController extends BaseFrontController
 {
-    public function behaviors()
+
+    public function behaviors ()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
+                'verbs' => [
+                        'class' => VerbFilter::className(),
+                        'actions' => [
+                                'delete' => [
+                                        'post'
+                                ]
+                        ]
+                ]
         ];
     }
 
     /**
      * Lists all Board models.
+     *
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex ()
     {
-    	$boardId = YiiForum::getGetValue('boardid');
-    	
-    	$locals=[];
-    	$locals['currentBoard'] = $this->getBoard($boardId);
-    	$locals['boards'] = $this->buildSubBoards($boardId,null);
-
+        $boardId = YiiForum::getGetValue('boardid');
+        
+        $locals = [];
+        $locals['currentBoard'] = $this->getBoard($boardId);
+        $locals['boards'] = $this->buildSubBoards($boardId, null);
+        
         return $this->render('index', $locals);
     }
 
     /**
      * Displays a single Board model.
-     * @param integer $id
+     *
+     * @param integer $id            
      * @return mixed
      */
-    public function actionView($id)
+    public function actionView ($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        return $this->render('view', 
+                [
+                        'model' => $this->findModel($id)
+                ]);
     }
 
     /**
      * Creates a new Board model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
+     * If creation is successful, the browser will be redirected to the 'view'
+     * page.
+     *
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate ()
     {
-        $model = new Board;
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        $model = new Board();
+        
+        if ($model->load(Yii::$app->request->post()) && $model->save())
+        {
+            return $this->redirect(
+                    [
+                            'view',
+                            'id' => $model->id
+                    ]);
+        }
+        else
+        {
+            return $this->render('create', 
+                    [
+                            'model' => $model
+                    ]);
         }
     }
 
     /**
      * Updates an existing Board model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
+     * If update is successful, the browser will be redirected to the 'view'
+     * page.
+     *
+     * @param integer $id            
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate ($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        
+        if ($model->load(Yii::$app->request->post()) && $model->save())
+        {
+            return $this->redirect(
+                    [
+                            'view',
+                            'id' => $model->id
+                    ]);
+        }
+        else
+        {
+            return $this->render('update', 
+                    [
+                            'model' => $model
+                    ]);
         }
     }
 
     /**
      * Deletes an existing Board model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
+     * If deletion is successful, the browser will be redirected to the 'index'
+     * page.
+     *
+     * @param integer $id            
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionDelete ($id)
     {
         $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        
+        return $this->redirect([
+                'index'
+        ]);
     }
 
     /**
      * Finds the Board model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
+     *
+     * @param integer $id            
      * @return Board the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel ($id)
     {
-        if (($model = Board::findOne($id)) !== null) {
+        if (($model = Board::findOne($id)) !== null)
+        {
             return $model;
-        } else {
+        }
+        else
+        {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }

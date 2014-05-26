@@ -1,6 +1,5 @@
 <?php
 namespace base;
-
 use Yii;
 use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
@@ -21,26 +20,28 @@ use common\models\Board;
  */
 class BaseController extends Controller
 {
+
 	private $_cachedBoards;
+
 	public function getCachedBoards()
 	{
-		if($this->_cachedBoards==null)
+		if ($this->_cachedBoards == null)
 		{
-			$this->_cachedBoards=YiiForum::getAppParam('cachedBoards');
+			$this->_cachedBoards = YiiForum::getAppParam('cachedBoards');
 		}
 		return $this->_cachedBoards;
 	}
-	
-	
-	public function getBoard($id,$fromCache=True)
+
+	public function getBoard($id, $fromCache = True)
 	{
-		if($fromCache)
+		if ($fromCache)
 		{
 			$cahcedBoards = $this->getCachedBoards();
 			return $cahcedBoards[$id];
 		}
 		
-		return Board::findOne(['id'=>$id]);
+		return Board::findOne([
+				'id' => $id
+		]);
 	}
-	
 }

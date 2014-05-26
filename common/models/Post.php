@@ -1,7 +1,5 @@
 <?php
-
 namespace common\models;
-
 use Yii;
 use base\BaseActiveRecord;
 
@@ -23,48 +21,96 @@ use base\BaseActiveRecord;
  */
 class Post extends BaseActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
-    {
-        return 'post';
-    }
 
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            [['thread_id', 'user_id', 'user_name', 'body', 'create_time'], 'required'],
-            [['thread_id', 'user_id', 'supports', 'againsts', 'floor'], 'integer'],
-            [['body'], 'string'],
-            [['create_time', 'modify_time'], 'safe'],
-            [['user_name'], 'string', 'max' => 32],
-            [['title'], 'string', 'max' => 128],
-            [['note'], 'string', 'max' => 64]
-        ];
-    }
+	/**
+	 * @inheritdoc
+	 */
+	public static function tableName()
+	{
+		return 'post';
+	}
 
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'thread_id' => 'Thread ID',
-            'user_id' => 'User ID',
-            'user_name' => 'User Name',
-            'title' => '标题',
-            'body' => '内容',
-            'create_time' => 'Create Time',
-            'modify_time' => 'Modify Time',
-            'supports' => '支持数',
-            'againsts' => '反对数',
-            'floor' => '楼层',
-            'note' => 'Note',
-        ];
-    }
+	/**
+	 * @inheritdoc
+	 */
+	public function rules()
+	{
+		return [
+				[
+						[
+								'thread_id',
+								'user_id',
+								'user_name',
+								'body',
+								'create_time'
+						],
+						'required'
+				],
+				[
+						[
+								'thread_id',
+								'user_id',
+								'supports',
+								'againsts',
+								'floor'
+						],
+						'integer'
+				],
+				[
+						[
+								'body'
+						],
+						'string'
+				],
+				[
+						[
+								'create_time',
+								'modify_time'
+						],
+						'safe'
+				],
+				[
+						[
+								'user_name'
+						],
+						'string',
+						'max' => 32
+				],
+				[
+						[
+								'title'
+						],
+						'string',
+						'max' => 128
+				],
+				[
+						[
+								'note'
+						],
+						'string',
+						'max' => 64
+				]
+		];
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function attributeLabels()
+	{
+		return [
+				'id' => 'ID',
+				'thread_id' => 'Thread ID',
+				'user_id' => 'User ID',
+				'user_name' => 'User Name',
+				'title' => '标题',
+				'body' => '内容',
+				'create_time' => 'Create Time',
+				'modify_time' => 'Modify Time',
+				'supports' => '支持数',
+				'againsts' => '反对数',
+				'floor' => '楼层',
+				'note' => 'Note'
+		];
+	}
 }

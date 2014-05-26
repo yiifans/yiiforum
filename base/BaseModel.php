@@ -1,6 +1,5 @@
 <?php
 namespace base;
-
 use Yii;
 use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
@@ -19,5 +18,4 @@ use yii\base\Model;
  */
 class BaseModel extends Model
 {
-   
 }

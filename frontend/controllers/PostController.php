@@ -1,7 +1,5 @@
 <?php
-
 namespace frontend\controllers;
-
 use Yii;
 use common\models\Post;
 use common\models\search\PostSearch;
@@ -15,107 +13,141 @@ use frontend\base\BaseFrontController;
  */
 class PostController extends BaseFrontController
 {
-    public function behaviors()
+
+    public function behaviors ()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
+                'verbs' => [
+                        'class' => VerbFilter::className(),
+                        'actions' => [
+                                'delete' => [
+                                        'post'
+                                ]
+                        ]
+                ]
         ];
     }
 
     /**
      * Lists all Post models.
+     * 
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex ()
     {
-        $searchModel = new PostSearch;
-        $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
-
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-            'searchModel' => $searchModel,
-        ]);
+        $searchModel = new PostSearch();
+        $dataProvider = $searchModel->search(
+                Yii::$app->request->getQueryParams());
+        
+        return $this->render('index', 
+                [
+                        'dataProvider' => $dataProvider,
+                        'searchModel' => $searchModel
+                ]);
     }
 
     /**
      * Displays a single Post model.
-     * @param integer $id
+     * 
+     * @param integer $id            
      * @return mixed
      */
-    public function actionView($id)
+    public function actionView ($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        return $this->render('view', 
+                [
+                        'model' => $this->findModel($id)
+                ]);
     }
 
     /**
      * Creates a new Post model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
+     * If creation is successful, the browser will be redirected to the 'view'
+     * page.
+     * 
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate ()
     {
-        $model = new Post;
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
+        $model = new Post();
+        
+        if ($model->load(Yii::$app->request->post()) && $model->save())
+        {
+            return $this->redirect([
+                    'view',
+                    'id' => $model->id
             ]);
+        }
+        else
+        {
+            return $this->render('create', 
+                    [
+                            'model' => $model
+                    ]);
         }
     }
 
     /**
      * Updates an existing Post model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
+     * If update is successful, the browser will be redirected to the 'view'
+     * page.
+     * 
+     * @param integer $id            
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate ($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
+        
+        if ($model->load(Yii::$app->request->post()) && $model->save())
+        {
+            return $this->redirect([
+                    'view',
+                    'id' => $model->id
             ]);
+        }
+        else
+        {
+            return $this->render('update', 
+                    [
+                            'model' => $model
+                    ]);
         }
     }
 
     /**
      * Deletes an existing Post model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
+     * If deletion is successful, the browser will be redirected to the 'index'
+     * page.
+     * 
+     * @param integer $id            
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionDelete ($id)
     {
         $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        
+        return $this->redirect([
+                'index'
+        ]);
     }
 
     /**
      * Finds the Post model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
+     * 
+     * @param integer $id            
      * @return Post the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel ($id)
     {
-        if (($model = Post::findOne($id)) !== null) {
+        if (($model = Post::findOne($id)) !== null)
+        {
             return $model;
-        } else {
+        }
+        else
+        {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }

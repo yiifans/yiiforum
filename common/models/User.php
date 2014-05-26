@@ -1,6 +1,5 @@
 <?php
 namespace common\models;
-
 use yii\base\NotSupportedException;
 use yii\db\ActiveRecord;
 use yii\helpers\Security;
@@ -23,186 +22,258 @@ use yii\web\IdentityInterface;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
-    const STATUS_DELETED = 0;
-    const STATUS_ACTIVE = 10;
 
-    const ROLE_USER = 10;
+	const STATUS_DELETED = 0;
 
-    /**
-     * Creates a new user
-     *
-     * @param  array       $attributes the attributes given by field => value
-     * @return static|null the newly created model, or null on failure
-     */
-    public static function create($attributes)
-    {
-        /** @var User $user */
-        $user = new static();
-        $user->setAttributes($attributes);
-        $user->setPassword($attributes['password']);
-        $user->generateAuthKey();
-        if ($user->save()) {
-            return $user;
-        } else {
-            return null;
-        }
-    }
+	const STATUS_ACTIVE = 10;
 
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'timestamp' => [
-                'class' => 'yii\behaviors\TimestampBehavior',
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
-                ],
-            ],
-        ];
-    }
+	const ROLE_USER = 10;
 
-    /**
-     * @inheritdoc
-     */
-    public static function findIdentity($id)
-    {
-        return static::findOne($id);
-    }
+	/**
+	 * Creates a new user
+	 *
+	 * @param array $attributes
+	 *        	the attributes given by field => value
+	 * @return static null newly created model, or null on failure
+	 */
+	public static function create($attributes)
+	{
+		/**
+		 * @var User $user
+		 */
+		$user = new static();
+		$user->setAttributes($attributes);
+		$user->setPassword($attributes['password']);
+		$user->generateAuthKey();
+		if ($user->save())
+		{
+			return $user;
+		}
+		else
+		{
+			return null;
+		}
+	}
 
-    /**
-     * @inheritdoc
-     */
-    public static function findIdentityByAccessToken($token)
-    {
-        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
-    }
+	/**
+	 * @inheritdoc
+	 */
+	public function behaviors()
+	{
+		return [
+				'timestamp' => [
+						'class' => 'yii\behaviors\TimestampBehavior',
+						'attributes' => [
+								ActiveRecord::EVENT_BEFORE_INSERT => [
+										'created_at',
+										'updated_at'
+								],
+								ActiveRecord::EVENT_BEFORE_UPDATE => [
+										'updated_at'
+								]
+						]
+				]
+		];
+	}
 
-    /**
-     * Finds user by username
-     *
-     * @param  string      $username
-     * @return static|null
-     */
-    public static function findByUsername($username)
-    {
-        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
-    }
+	/**
+	 * @inheritdoc
+	 */
+	public static function findIdentity($id)
+	{
+		return static::findOne($id);
+	}
 
-    /**
-     * Finds user by password reset token
-     *
-     * @param  string      $token password reset token
-     * @return static|null
-     */
-    public static function findByPasswordResetToken($token)
-    {
-        $expire = \Yii::$app->params['user.passwordResetTokenExpire'];
-        $parts = explode('_', $token);
-        $timestamp = (int) end($parts);
-        if ($timestamp + $expire < time()) {
-            // token expired
-            return null;
-        }
+	/**
+	 * @inheritdoc
+	 */
+	public static function findIdentityByAccessToken($token)
+	{
+		throw new NotSupportedException(
+				'"findIdentityByAccessToken" is not implemented.');
+	}
 
-        return static::findOne([
-            'password_reset_token' => $token,
-            'status' => self::STATUS_ACTIVE,
-        ]);
-    }
+	/**
+	 * Finds user by username
+	 *
+	 * @param string $username        	
+	 * @return static null
+	 */
+	public static function findByUsername($username)
+	{
+		return static::findOne(
+				[
+						'username' => $username,
+						'status' => self::STATUS_ACTIVE
+				]);
+	}
 
-    /**
-     * @inheritdoc
-     */
-    public function getId()
-    {
-        return $this->getPrimaryKey();
-    }
+	/**
+	 * Finds user by password reset token
+	 *
+	 * @param string $token
+	 *        	password reset token
+	 * @return static null
+	 */
+	public static function findByPasswordResetToken($token)
+	{
+		$expire = \Yii::$app->params['user.passwordResetTokenExpire'];
+		$parts = explode('_', $token);
+		$timestamp = (int) end($parts);
+		if ($timestamp + $expire < time())
+		{
+			// token expired
+			return null;
+		}
+		
+		return static::findOne(
+				[
+						'password_reset_token' => $token,
+						'status' => self::STATUS_ACTIVE
+				]);
+	}
 
-    /**
-     * @inheritdoc
-     */
-    public function getAuthKey()
-    {
-        return $this->auth_key;
-    }
+	/**
+	 * @inheritdoc
+	 */
+	public function getId()
+	{
+		return $this->getPrimaryKey();
+	}
 
-    /**
-     * @inheritdoc
-     */
-    public function validateAuthKey($authKey)
-    {
-        return $this->getAuthKey() === $authKey;
-    }
+	/**
+	 * @inheritdoc
+	 */
+	public function getAuthKey()
+	{
+		return $this->auth_key;
+	}
 
-    /**
-     * Validates password
-     *
-     * @param  string  $password password to validate
-     * @return boolean if password provided is valid for current user
-     */
-    public function validatePassword($password)
-    {
-        return Security::validatePassword($password, $this->password_hash);
-    }
+	/**
+	 * @inheritdoc
+	 */
+	public function validateAuthKey($authKey)
+	{
+		return $this->getAuthKey() === $authKey;
+	}
 
-    /**
-     * Generates password hash from password and sets it to the model
-     *
-     * @param string $password
-     */
-    public function setPassword($password)
-    {
-        $this->password_hash = Security::generatePasswordHash($password);
-    }
+	/**
+	 * Validates password
+	 *
+	 * @param string $password
+	 *        	password to validate
+	 * @return boolean if password provided is valid for current user
+	 */
+	public function validatePassword($password)
+	{
+		return Security::validatePassword($password, $this->password_hash);
+	}
 
-    /**
-     * Generates "remember me" authentication key
-     */
-    public function generateAuthKey()
-    {
-        $this->auth_key = Security::generateRandomKey();
-    }
+	/**
+	 * Generates password hash from password and sets it to the model
+	 *
+	 * @param string $password        	
+	 */
+	public function setPassword($password)
+	{
+		$this->password_hash = Security::generatePasswordHash($password);
+	}
 
-    /**
-     * Generates new password reset token
-     */
-    public function generatePasswordResetToken()
-    {
-        $this->password_reset_token = Security::generateRandomKey() . '_' . time();
-    }
+	/**
+	 * Generates "remember me" authentication key
+	 */
+	public function generateAuthKey()
+	{
+		$this->auth_key = Security::generateRandomKey();
+	}
 
-    /**
-     * Removes password reset token
-     */
-    public function removePasswordResetToken()
-    {
-        $this->password_reset_token = null;
-    }
+	/**
+	 * Generates new password reset token
+	 */
+	public function generatePasswordResetToken()
+	{
+		$this->password_reset_token = Security::generateRandomKey() . '_' .
+				 time();
+	}
 
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+	/**
+	 * Removes password reset token
+	 */
+	public function removePasswordResetToken()
+	{
+		$this->password_reset_token = null;
+	}
 
-            ['role', 'default', 'value' => self::ROLE_USER],
-            ['role', 'in', 'range' => [self::ROLE_USER]],
-
-            ['username', 'filter', 'filter' => 'trim'],
-            ['username', 'required'],
-            ['username', 'unique'],
-            ['username', 'string', 'min' => 2, 'max' => 255],
-
-            ['email', 'filter', 'filter' => 'trim'],
-            ['email', 'required'],
-            ['email', 'email'],
-            ['email', 'unique'],
-        ];
-    }
+	/**
+	 * @inheritdoc
+	 */
+	public function rules()
+	{
+		return [
+				[
+						'status',
+						'default',
+						'value' => self::STATUS_ACTIVE
+				],
+				[
+						'status',
+						'in',
+						'range' => [
+								self::STATUS_ACTIVE,
+								self::STATUS_DELETED
+						]
+				],
+				
+				[
+						'role',
+						'default',
+						'value' => self::ROLE_USER
+				],
+				[
+						'role',
+						'in',
+						'range' => [
+								self::ROLE_USER
+						]
+				],
+				
+				[
+						'username',
+						'filter',
+						'filter' => 'trim'
+				],
+				[
+						'username',
+						'required'
+				],
+				[
+						'username',
+						'unique'
+				],
+				[
+						'username',
+						'string',
+						'min' => 2,
+						'max' => 255
+				],
+				
+				[
+						'email',
+						'filter',
+						'filter' => 'trim'
+				],
+				[
+						'email',
+						'required'
+				],
+				[
+						'email',
+						'email'
+				],
+				[
+						'email',
+						'unique'
+				]
+		];
+	}
 }

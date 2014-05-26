@@ -1,6 +1,5 @@
 <?php
 namespace base;
-
 use Yii;
 use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
@@ -19,29 +18,34 @@ use yii\web\View;
  */
 class BaseView extends View
 {
+
 	private $_cachedBoards;
+
 	public function getCachedBoards()
 	{
-		if($this->_cachedBoards==null)
+		if ($this->_cachedBoards == null)
 		{
-			$this->_cachedBoards=YiiForum::getAppParam('cachedBoards');
+			$this->_cachedBoards = YiiForum::getAppParam('cachedBoards');
 		}
 		return $this->_cachedBoards;
 	}
-	
+
 	public function addBreadcrumb()
 	{
 		$argsCount = func_num_args();
 		$args = func_get_args();
 		
-		if($argsCount == 1)
+		if ($argsCount == 1)
 		{
-			$this->params['breadcrumbs'][]=$args[0];
+			$this->params['breadcrumbs'][] = $args[0];
 		}
-		else if($argsCount == 2)
-		{
-			$this->params['breadcrumbs'][] = ['label' => $args[0], 'url' => $args[1]];
-		}
+		else 
+			if ($argsCount == 2)
+			{
+				$this->params['breadcrumbs'][] = [
+						'label' => $args[0],
+						'url' => $args[1]
+				];
+			}
 	}
-	
 }
