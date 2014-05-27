@@ -4,6 +4,7 @@ use yii\base\NotSupportedException;
 use yii\db\ActiveRecord;
 use yii\helpers\Security;
 use yii\web\IdentityInterface;
+use base\BaseActiveRecord;
 
 /**
  * User model
@@ -20,7 +21,7 @@ use yii\web\IdentityInterface;
  * @property integer $updated_at
  * @property string $password write-only password
  */
-class User extends ActiveRecord implements IdentityInterface
+class User extends BaseActiveRecord implements IdentityInterface
 {
 
 	const STATUS_DELETED = 0;
@@ -29,6 +30,11 @@ class User extends ActiveRecord implements IdentityInterface
 
 	const ROLE_USER = 10;
 
+	public static function tableName()
+	{
+		return 'user';
+	}
+	
 	/**
 	 * Creates a new user
 	 *

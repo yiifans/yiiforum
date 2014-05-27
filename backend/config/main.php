@@ -32,6 +32,9 @@ return [
         'view' => [
 	        'class' => 'backend\base\BaseBackView',
         ],
+        'authManager' => [
+			'class' => 'base\AuthManager',
+		],
     ],
     'params' => $params,
 ];
