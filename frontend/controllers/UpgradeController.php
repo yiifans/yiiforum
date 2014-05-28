@@ -15,6 +15,7 @@ use yii\filters\AccessControl;
 use frontend\base\BaseFrontController;
 use common\models\Board;
 use common\helpers\TFileHelper;
+use base\YiiForum;
 
 /**
  * Site controller
@@ -129,7 +130,7 @@ class UpgradeController extends BaseFrontController
     		foreach ($needUpgradeSqls as $sql)
     		{
     			$sqlData=TFileHelper::readFile([$sqlPath,$sql]);
-    			$this->execute($sqlData);
+    			YiiForum::execute($sqlData);
     		}
     		
     		$lastSql=end($needUpgradeSqls);

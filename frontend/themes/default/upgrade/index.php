@@ -1,4 +1,5 @@
 <?php
+use yii\helpers\Html;
 /**
  * @var yii\web\View $this
  */
@@ -28,8 +29,8 @@ $this->params['breadcrumbs'][] = $this->title;
        			{
        				echo '<font color="red">'.$sql.'</font><br>';
        			}
+       			echo Html::a('升级', ['upgrade/do'], ['class' => 'btn btn-primary']);
        			
-       			echo '<a class="btn btn-success" href="/yiiforum/frontend/web/index.php?r=upgrade/do">升级</a>';
        		}
        ?>
     </div>
