@@ -35,10 +35,10 @@ $this->params['breadcrumbs'][] = $this->title;
 		<td><?php echo $row['username']?></td>
 		<td>
 			
-			<?= Html::a('设置权限', ['permission','id'=>$row->name]) ?>
+			<?= Html::a('设置权限', ['permission','id'=>$row->id]) ?>
 		
-			<a href="index.php?r=role/update&id=<?php echo $row->name?>"><span class="glyphicon glyphicon-pencil"></span></a>
-			<a href="index.php?r=role/delete&id=<?php echo $row->name?>" data-confirm="Are you sure to delete this item?" data-method="post"><span class="glyphicon glyphicon-trash"></span></a>
+			<a href="index.php?r=user/update&id=<?php echo $row->id?>"><span class="glyphicon glyphicon-pencil"></span></a>
+			<a href="index.php?r=user/delete&id=<?php echo $row->id?>" data-confirm="Are you sure to delete this item?" data-method="post"><span class="glyphicon glyphicon-trash"></span></a>
 		</td>
 		</tr>
 		<?php endforeach;?>

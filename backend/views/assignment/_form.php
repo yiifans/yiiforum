@@ -14,7 +14,6 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <input type="hidden" id="authitem-type"  name="AuthItem[type]" value="<?php echo $type?>"/>
     
     <?= $form->field($model, 'name')->textInput(['maxlength' => 64]) ?>
 

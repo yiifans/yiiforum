@@ -35,7 +35,7 @@ class AuthItem extends \base\BaseActiveRecord
     public function rules()
     {
         return [
-            [['name', 'type'], 'required'],
+            [['name', 'type', 'description'], 'required'],
             [['type', 'created_at', 'updated_at'], 'integer'],
             [['description', 'data'], 'string'],
             [['name', 'rule_name'], 'string', 'max' => 64]
@@ -93,5 +93,24 @@ class AuthItem extends \base\BaseActiveRecord
     		return true;
     	}
     	return false;
+    }
+    
+    private $_group;
+    public function getGroup()
+    {
+    	return $this->_group;
+    }
+    public function setGroup($value)
+    {
+    	$this->_group=$value;
+    }
+    private $_category;
+    public function getCategory()
+    {
+    	return $this->_category;
+    }
+    public function setCategory($value)
+    {
+    	$this->_category=$value;
     }
 }

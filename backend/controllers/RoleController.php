@@ -24,9 +24,26 @@ class RoleController extends AuthController
      */
     public function actionIndex()
     {
-    	$items = $this->auth->getRoles();
+    	$groupName = YiiForum::getGetValue('group');
+    	
+    	$groups = $this->auth->getChildren('root_role');
+    	
+    	if($groupName !== null)
+    	{
+    		$items = $this->auth->getChildren($groupName);
+    	}
+    	else 
+    	{
+    		$items = $this->auth->getRoles();
+    		foreach ($groups as $group)
+    		{
+    			unset($items[$group->name]);
+    		}
+    		unset($items['root_role']);
+    	}
     	
         $locals = [];
+        $locals['groups'] = $groups;
         $locals['items']=$items;
         
         return $this->render('index', $locals);
@@ -40,15 +57,24 @@ class RoleController extends AuthController
      */
     public function actionCreate()
     {
+    	
     	$model = new AuthItem();
+    	$model->group = YiiForum::getGetValue('group','');
     	
     	if ($model->load(Yii::$app->request->post())) {
     		$item = $this->model2Item($model,new Role());
     		$this->auth->add($item);
     		
-    		return $this->redirect(['index']);
+    		$groupName = YiiForum::getPostValue('AuthItem')['group'];
+    		$group = new Role();
+    		$group->name=$groupName;
+    		
+    		$this->auth->addChild($group, $item);
+    		
+    		return $this->redirect(['index','group'=>$groupName]);
     	} else {
     		$locals = [];
+    		$locals['groups'] =  $this->auth->getChildren('root_role');
     		$locals['model'] =$model;
     		return $this->render('create',$locals);
     	}
@@ -70,7 +96,10 @@ class RoleController extends AuthController
     		
     		return $this->redirect(['index']);
     	} else {
+    		$model->group = $this->auth->getParent($model->name)->name;
+    		
     		$locals = [];
+    		$locals['groups'] =  $this->auth->getChildren('root_role');
     		$locals['model'] =$model;
     	
     		return $this->render('update', $locals);
@@ -90,7 +119,7 @@ class RoleController extends AuthController
     		
     		$child->name=$itemName;
     		
-    		//the selected  role
+    		//the selected  permission
     		if(in_array($itemName,$selectedItems))
     		{
     			//check if exists in db
@@ -101,12 +130,12 @@ class RoleController extends AuthController
     			}
     			else
     			{
-    				//add new role
+    				//add new permission
     				YiiForum::info('add:'.$itemName);
     				$this->auth->addChild($parent, $child);
     			}
     		}
-    		else //unselected role
+    		else //unselected permission
     		{
     			//check if exists in db
     			if(isset($existedItems[$itemName]))
@@ -121,31 +150,32 @@ class RoleController extends AuthController
     public function actionPermission($id)
     {
     	$model = $this->findModel($id);
-    
-    
+   
     	if (YiiForum::hasPostValue('submit')) {
     		
     		$parent=new Role();
     		$parent->name=$id;
     		
-    		$existItems=$this->auth->getChildren($id);
-    		
-    		$allRoles=$this->auth->getRoles();
-    		$selectedRoles = YiiForum::getPostValue('selectedRoles');
-    		$this->updateChildrenItems($allRoles,$selectedRoles,$existItems,$parent,new Role());
+    		$existPermissions = $this->auth->getPermissionsByRole($id);
     		
     		$allPermissions=$this->auth->getPermissions();
     		$selectedPermissions = YiiForum::getPostValue('selectedPermissions');
-    		$this->updateChildrenItems($allPermissions,$selectedPermissions,$existItems,$parent,new Permission());
+    		$this->updateChildrenItems($allPermissions,$selectedPermissions,$existPermissions,$parent,new Permission());
     	
     		return $this->redirect(['index']);
     	} else {
     		
     		$locals = [];
     		$locals['model'] =$model;
-    		$locals['allRoles'] = $this->auth->getRoles();
-    		$locals['allPermissions'] = $this->auth->getPermissions();
-    		$locals['existItems']=$this->auth->getChildren($id);
+    		
+    		$categories = $this->auth->getChildren('root_permission');
+    		foreach ($categories as $category)
+    		{
+    			$permissions = $this->auth->getChildren($category->name);
+    			$locals['allPermissions'][$category->description]=$permissions;
+    		}
+    		
+    		$locals['existPermissions']=$this->auth->getPermissionsByRole($id);
     		 
     		return $this->render('permission', $locals);
     	}

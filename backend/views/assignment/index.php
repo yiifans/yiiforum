@@ -9,7 +9,7 @@ use yii\grid\GridView;
  * @var common\models\search\AuthItemSearch $searchModel
  */
 
-$this->title = 'Auth Items';
+$this->title = '角色管理';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="auth-item-index">
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
     	
-        <?= Html::a($type==1?'添加角色':'添加权限', ['create-item','type'=>$type], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('添加角色', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <table class="table">
@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	      
 	      <th>标题</th>
 	      
-	      <th width="80">do</th>
+	      <th width="120">do</th>
 	    </tr>
 		<?php foreach ($items as $row ): ?>
 		<tr>
@@ -34,8 +34,12 @@ $this->params['breadcrumbs'][] = $this->title;
 		<td><?php echo $row->name?></td>
 		
 		<td>
-			<a href="index.php?r=auth/update-item&id=<?php echo $row->name?>"><span class="glyphicon glyphicon-pencil"></span></a>
-			<a href="index.php?r=auth/delete-item&id=<?php echo $row->name?>" data-confirm="Are you sure to delete this item?" data-method="post"><span class="glyphicon glyphicon-trash"></span></a>
+			
+			<?= Html::a('设置权限', ['permission','id'=>$row->name]) ?>
+			
+			
+			<a href="index.php?r=role/update&id=<?php echo $row->name?>"><span class="glyphicon glyphicon-pencil"></span></a>
+			<a href="index.php?r=role/delete&id=<?php echo $row->name?>" data-confirm="Are you sure to delete this item?" data-method="post"><span class="glyphicon glyphicon-trash"></span></a>
 		</td>
 		</tr>
 		<?php endforeach;?>

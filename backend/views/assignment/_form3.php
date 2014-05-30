@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use yii\helpers\ArrayHelper;
 
 /**
  * @var yii\web\View $this
@@ -13,19 +12,11 @@ use yii\helpers\ArrayHelper;
 
 <div class="auth-item-form">
 
-    <?php 
-    	$form = ActiveForm::begin(); 
-	    if($model->isNewRecord)
-	    {
-	    	echo $form->field($model, 'category')->dropDownList(ArrayHelper::map($categories, 'name', 'description'));
-	    	echo $form->field($model, 'name')->textInput(['maxlength' => 64]);
-	    }
-	    else
-	    {
-	    	echo $form->field($model, 'category')->dropDownList(ArrayHelper::map($categories, 'name', 'description'),['disabled'=>'disabled']);
-	    	echo $form->field($model, 'name')->textInput(['maxlength' => 64,'disabled'=>'disabled']);
-	    }
-    ?>
+    <?php $form = ActiveForm::begin(); ?>
+
+    <input type="hidden" id="authitem-type"  name="AuthItem[type]" value="<?php echo $type?>"/>
+    
+    <?= $form->field($model, 'name')->textInput(['maxlength' => 64]) ?>
 
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 

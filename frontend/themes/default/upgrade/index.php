@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use base\YiiForum;
 /**
  * @var yii\web\View $this
  */
@@ -18,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
        		if(empty($needUpgradeSqls))
        		{
        			echo '不需要升级sql<br>';
-       			echo '<a href="'.$this->homeUrl.'">返回首页</a>';
+       			echo '<a href="'.YiiForum::getHomeUrl().'">返回首页</a>';
        		}
        		else 
        		{

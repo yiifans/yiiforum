@@ -9,6 +9,7 @@ use backend\base\BaseBackController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use base\YiiForum;
+use yii\rbac\Role;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -33,7 +34,7 @@ class UserController extends BaseBackController
      */
     public function actionIndex()
     {
-    	$query=User::find()->all();
+    	$query=User::find();
     	$locals = YiiForum::getPagedRows($query);
        
         return $this->render('index', $locals);
@@ -88,6 +89,8 @@ class UserController extends BaseBackController
         }
     }
 
+    
+    
     /**
      * Deletes an existing User model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -116,4 +119,82 @@ class UserController extends BaseBackController
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+    
+    public function updateAssignments($allItems,$selectedItems,$existedItems,$id)
+    {
+    	$auth = \Yii::$app->authManager;
+    	
+    	if($selectedItems==null)
+    	{
+    		$selectedItems=[];
+    	}
+    	
+    	$role =new Role();
+    	foreach ($allItems as $item)
+    	{
+    		$itemName = $item->name;
+    
+    		$role->name=$itemName;
+    
+    		//the selected  role
+    		if(in_array($itemName,$selectedItems))
+    		{
+    			//check if exists in db
+    			if(isset($existedItems[$itemName]))
+    			{
+    				YiiForum::info('exist:'.$itemName);
+    				continue;
+    			}
+    			else
+    			{
+    				//add new role
+    				YiiForum::info('add:'.$itemName);
+    				$auth->assign($role, $id);
+    			}
+    		}
+    		else //unselected role
+    		{
+    			//check if exists in db
+    			if(isset($existedItems[$itemName]))
+    			{
+    				//need to be deleted
+    				YiiForum::info('delete:'.$itemName);
+    				$auth->revoke($role, $id);
+    			}
+    		}
+    	}
+    }
+    
+    public function actionPermission($id)
+    {
+    	$auth = \Yii::$app->authManager;
+    	
+    	$model = [];
+    
+    	if (YiiForum::hasPostValue('submit')) {
+    		
+    		$existItems=$auth->getAssignments($id);
+    		
+    		$allRoles=$auth->getRoles();
+    		$selectedRoles = YiiForum::getPostValue('selectedRoles');
+    		$this->updateAssignments($allRoles,$selectedRoles,$existItems,$id);
+    		
+    		$allPermissions=$auth->getPermissions();
+    		$selectedPermissions = YiiForum::getPostValue('selectedPermissions');
+    		$this->updateAssignments($allPermissions,$selectedPermissions,$existItems,$id);
+    		 
+    		return $this->redirect(['index']);
+    		
+    		return $this->redirect(['view', 'item_name' => $model->item_name, 'user_id' => $model->user_id]);
+    	} else {
+    		$locals = [];
+    		$locals['model'] =$model;
+    		$locals['allRoles'] = $auth->getRoles();
+    		$locals['allPermissions'] = $auth->getPermissions();
+    		$locals['existItems']=$auth->getAssignments($id);
+    		 
+    		return $this->render('permission', $locals);
+    	}
+    }
+   
 }

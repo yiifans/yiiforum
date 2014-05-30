@@ -8,7 +8,7 @@ use yii\helpers\Html;
  */
 $this->title='添加角色';
 
-$this->params['breadcrumbs'][] = ['label' => 'Auth Items', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => '角色管理', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="auth-item-create">
@@ -17,6 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
+    	'groups' => $groups,
     ]) ?>
 
 </div>

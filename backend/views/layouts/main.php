@@ -35,6 +35,7 @@ AppAsset::register($this);
             $menuItems = [
                 ['label' => '首页', 'url' => ['/site/index']],
                 ['label' => '板块', 'url' => ['/board/index']],
+                ['label' => '用户', 'url' => ['/user/index']],
                 ['label' => '角色', 'url' => ['/role/index']],
                 ['label' => '权限', 'url' => ['/permission/index']],
                 ['label' => '关于', 'url' => ['/site/about']],

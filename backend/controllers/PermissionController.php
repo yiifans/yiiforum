@@ -24,11 +24,29 @@ class PermissionController extends AuthController
      */
     public function actionIndex()
     {
-    	$items = $this->auth->getPermissions();
+    	$categoryName = YiiForum::getGetValue('category');
+    	 
+    	$categories = $this->auth->getChildren('root_permission');
+    	 
+    	if($categoryName !== null)
+    	{
+    		$items = $this->auth->getChildren($categoryName);
+    	}
+    	else 
+    	{
+    		$items = $this->auth->getPermissions();
+    		foreach ($categories as $category)
+    		{
+    			unset($items[$category->name]);
+    		}
+    		unset($items['root_permission']);
+    		
+    	}
     	
-        $locals = [];
-        $locals['items']=$items;
-        
+    	$locals = [];
+    	$locals['categories'] = $categories;
+    	$locals['items']=$items;
+    	
         return $this->render('index', $locals);
     }
 
@@ -40,15 +58,24 @@ class PermissionController extends AuthController
      */
     public function actionCreate()
     {
+    	
     	$model = new AuthItem();
+    	$model->category=YiiForum::getGetValue('category');
     	
     	if ($model->load(Yii::$app->request->post())) {
     		$item = $this->model2Item($model,new Permission());
     		$this->auth->add($item);
     		
-    		return $this->redirect(['index']);
+    		$categoryName = YiiForum::getPostValue('AuthItem')['category'];
+    		$category = new Permission();
+    		$category->name=$categoryName;
+    		
+    		$this->auth->addChild($category, $item);
+    		
+    		return $this->redirect(['index','category'=>$categoryName]);
     	} else {
     		$locals = [];
+    		$locals['categories'] = $this->auth->getChildren('root_permission');
     		$locals['model'] =$model;
     		return $this->render('create',$locals);
     	}
@@ -70,7 +97,11 @@ class PermissionController extends AuthController
     		
     		return $this->redirect(['index']);
     	} else {
+    		
+    		$model->category = $this->auth->getParent($model->name)->name;
+    		
     		$locals = [];
+    		$locals['categories'] = $this->auth->getChildren('root_permission');
     		$locals['model'] =$model;
     	
     		return $this->render('update', $locals);

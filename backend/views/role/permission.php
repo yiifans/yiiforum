@@ -8,9 +8,9 @@ use yii\helpers\ArrayHelper;
  * @var yii\web\View $this
  * @var common\models\AuthItem $model
  */
-$this->title='设定权限:'.$model->name;
+$this->title='设定权限:'.$model->description;
 
-$this->params['breadcrumbs'][] = ['label' => 'Auth Items', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => '角色管理', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="auth-item-create">
@@ -19,25 +19,19 @@ $this->params['breadcrumbs'][] = $this->title;
 
    
     
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin();?>
+    
+    <?php
+    	$existPermissions = array_keys($existPermissions);
+    	foreach ($allPermissions as $category=>$permissions):?>
+	    <div class="tbox">
+	    	<div class="hd"><?php echo $category?></div>
+	    	<?php 
+			    echo Html::checkboxList('selectedPermissions',$existPermissions,ArrayHelper::map($permissions, 'name', 'name'));
+			?>
+	    </div>
+    <?php endforeach;?>
 
-    <div class="tbox">
-    	<div class="hd">继承角色：</div>
-    	<?php 
-		    unset($allRoles[$model->name]);
-		    $existItems=array_keys($existItems);
-		    echo Html::checkboxList('selectedRoles',$existItems,ArrayHelper::map($allRoles, 'name', 'name'));
-		    ?>
-    
-    </div>
-    <div class="tbox">
-    	<div class="hd">设置权限：</div>
-    	<?php 
-		    echo Html::checkboxList('selectedPermissions',$existItems,ArrayHelper::map($allPermissions, 'name', 'name'));
-		    ?>
-    </div>
-    
-  
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary','name'=>'submit']) ?>

@@ -7,10 +7,9 @@ use yii\helpers\Html;
  * @var common\models\AuthItem $model
  */
 
-$this->title = 'Update Auth Item: ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Auth Items', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->name]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = '修改角色: ' . $model->name;
+$this->params['breadcrumbs'][] = ['label' => '角色管理', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $model->name;
 ?>
 <div class="auth-item-update">
 
@@ -18,6 +17,7 @@ $this->params['breadcrumbs'][] = 'Update';
 
     <?= $this->render('_form', [
         'model' => $model,
+    	'groups' => $groups,
     ]) ?>
 
 </div>
