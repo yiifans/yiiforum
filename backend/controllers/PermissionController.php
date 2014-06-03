@@ -44,6 +44,7 @@ class PermissionController extends AuthController
     	}
     	
     	$locals = [];
+    	$locals['currentCategory'] = $categoryName;
     	$locals['categories'] = $categories;
     	$locals['items']=$items;
     	
@@ -58,6 +59,7 @@ class PermissionController extends AuthController
      */
     public function actionCreate()
     {
+    	$categoryName = YiiForum::getGetValue('category');
     	
     	$model = new AuthItem();
     	$model->category=YiiForum::getGetValue('category');
@@ -80,7 +82,12 @@ class PermissionController extends AuthController
     		return $this->render('create',$locals);
     	}
     }
-    
+    public function actionRefresh()
+    {
+    	$categoryName = YiiForum::getGetValue('category');
+    	AuthItem::createCachedPermissions();
+    	return $this->redirect(['index','category'=>$categoryName]);
+    }
     /**
      * Updates an existing AuthItem model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -89,13 +96,15 @@ class PermissionController extends AuthController
      */
     public function actionUpdate($id)
     {
+    	$categoryName = YiiForum::getGetValue('category');
+    	
     	$model = $this->findModel($id);
     
     	if ($model->load(Yii::$app->request->post())) {
     		$item = $this->model2Item($model,new Permission());
     		$this->auth->update($id, $item);
     		
-    		return $this->redirect(['index']);
+    		return $this->redirect(['index', 'category'=>$categoryName]);
     	} else {
     		
     		$model->category = $this->auth->getParent($model->name)->name;
@@ -130,12 +139,14 @@ class PermissionController extends AuthController
      */
     public function actionDelete($id)
     {
+    	$categoryName = YiiForum::getGetValue('category');
+    	
     	$item = new Permission();
     	$item->name=$id;
     	$this->auth->remove($item);
         
 
-        return $this->redirect(['index']);
+        return $this->redirect(['index', 'category'=>$categoryName]);
     }
 
     /**

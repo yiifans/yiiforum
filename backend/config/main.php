@@ -13,10 +13,6 @@ return [
     'bootstrap' => ['log'],
     'modules' => [],
     'components' => [
-        'user' => [
-            'identityClass' => 'common\models\User',
-            'enableAutoLogin' => true,
-        ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
@@ -32,9 +28,7 @@ return [
         'view' => [
 	        'class' => 'backend\base\BaseBackView',
         ],
-        'authManager' => [
-			'class' => 'base\AuthManager',
-		],
+        
     ],
     'params' => $params,
 ];

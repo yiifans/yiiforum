@@ -165,35 +165,42 @@ class UserController extends BaseBackController
     	}
     }
     
-    public function actionPermission($id)
+    public function actionRole($id)
     {
     	$auth = \Yii::$app->authManager;
+    	$existItems=$auth->getAssignments($id);
+    	
     	
     	$model = [];
     
     	if (YiiForum::hasPostValue('submit')) {
     		
-    		$existItems=$auth->getAssignments($id);
-    		
     		$allRoles=$auth->getRoles();
     		$selectedRoles = YiiForum::getPostValue('selectedRoles');
     		$this->updateAssignments($allRoles,$selectedRoles,$existItems,$id);
     		
-    		$allPermissions=$auth->getPermissions();
-    		$selectedPermissions = YiiForum::getPostValue('selectedPermissions');
-    		$this->updateAssignments($allPermissions,$selectedPermissions,$existItems,$id);
+//     		$allPermissions=$auth->getPermissions();
+//     		$selectedPermissions = YiiForum::getPostValue('selectedPermissions');
+//     		$this->updateAssignments($allPermissions,$selectedPermissions,$existItems,$id);
     		 
     		return $this->redirect(['index']);
     		
     		return $this->redirect(['view', 'item_name' => $model->item_name, 'user_id' => $model->user_id]);
     	} else {
+    		$groups = $auth->getChildren('root_role');
+    		
+    		$allRoles = [];
+    		foreach ($groups as $group)
+    		{
+    			$allRoles[$group->description] = $auth->getChildren($group->name);
+    		}
+    		
     		$locals = [];
     		$locals['model'] =$model;
-    		$locals['allRoles'] = $auth->getRoles();
-    		$locals['allPermissions'] = $auth->getPermissions();
-    		$locals['existItems']=$auth->getAssignments($id);
+    		$locals['allRoles'] = $allRoles;
+    		$locals['existRoles']= $existItems;
     		 
-    		return $this->render('permission', $locals);
+    		return $this->render('role', $locals);
     	}
     }
    

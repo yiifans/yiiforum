@@ -31,7 +31,8 @@ $this->params['breadcrumbs'][] = $this->title;
 		<td>
 		    <p>
 		    	
-		        <?= Html::a('添加角色', ['create','group'=>YiiForum::getGetValue('group')], ['class' => 'btn btn-success']) ?>
+		        <?= Html::a('添加角色', ['create', 'group'=>$currentGroup], ['class' => 'btn btn-success']) ?>
+		        <?= Html::a('刷新缓存', ['refresh', 'group'=>$currentGroup], ['class' => 'btn btn-success']) ?>
 		    </p>
 		
 		    <table class="table">
@@ -47,10 +48,15 @@ $this->params['breadcrumbs'][] = $this->title;
 				<td><?php echo $row->name?></td>
 				<td><?php echo $row->description?></td>
 				<td>
-					<?= Html::a('设置权限', ['permission','id'=>$row->name]) ?>
-					
-					<a href="index.php?r=role/update&id=<?php echo $row->name?>"><span class="glyphicon glyphicon-pencil"></span></a>
-					<a href="index.php?r=role/delete&id=<?php echo $row->name?>" data-confirm="Are you sure to delete this item?" data-method="post"><span class="glyphicon glyphicon-trash"></span></a>
+					<?= Html::a('设置权限', ['permission','id'=>$row->name, 'group'=>$currentGroup]) ?>
+					<?= Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['update','id'=>$row->name, 'group'=>$currentGroup]) ?>
+					<?= Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete','id'=>$row->name, 'group'=>$currentGroup],[
+							
+							'data' => [
+								'confirm' => 'Are you sure you want to delete this item?',
+								'method' => 'post',
+							],
+					]) ?>
 				</td>
 				</tr>
 				<?php endforeach;?>

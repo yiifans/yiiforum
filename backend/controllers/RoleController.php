@@ -43,6 +43,7 @@ class RoleController extends AuthController
     	}
     	
         $locals = [];
+        $locals['currentGroup']=$groupName;
         $locals['groups'] = $groups;
         $locals['items']=$items;
         
@@ -79,7 +80,12 @@ class RoleController extends AuthController
     		return $this->render('create',$locals);
     	}
     }
-    
+    public function actionRefresh()
+    {
+    	$groupName = YiiForum::getGetValue('group');
+    	AuthItem::createCachedRoles();
+    	return $this->redirect(['index','group'=>$groupName]);
+    }
     /**
      * Updates an existing AuthItem model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -88,13 +94,15 @@ class RoleController extends AuthController
      */
     public function actionUpdate($id)
     {
+    	$groupName = YiiForum::getGetValue('group');
+    	
     	$model = $this->findModel($id);
     
     	if ($model->load(Yii::$app->request->post())) {
     		$item = $this->model2Item($model,new Role());
     		$this->auth->update($id, $item);
     		
-    		return $this->redirect(['index']);
+    		return $this->redirect(['index','group'=>$groupName]);
     	} else {
     		$model->group = $this->auth->getParent($model->name)->name;
     		
@@ -149,6 +157,8 @@ class RoleController extends AuthController
     }
     public function actionPermission($id)
     {
+    	$groupName = YiiForum::getGetValue('group');
+    	
     	$model = $this->findModel($id);
    
     	if (YiiForum::hasPostValue('submit')) {
@@ -162,7 +172,7 @@ class RoleController extends AuthController
     		$selectedPermissions = YiiForum::getPostValue('selectedPermissions');
     		$this->updateChildrenItems($allPermissions,$selectedPermissions,$existPermissions,$parent,new Permission());
     	
-    		return $this->redirect(['index']);
+    		return $this->redirect(['index', 'group'=>$groupName]);
     	} else {
     		
     		$locals = [];
@@ -203,12 +213,14 @@ class RoleController extends AuthController
      */
     public function actionDelete($id)
     {
+    	$groupName = YiiForum::getGetValue('group');
+    	
     	$item = new Role();
     	$item->name=$id;
     	$this->auth->remove($item);
         
 
-        return $this->redirect(['index']);
+        return $this->redirect(['index', 'group'=>$groupName]);
     }
 
     /**

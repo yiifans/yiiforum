@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	    <div class="tbox">
 	    	<div class="hd"><?php echo $category?></div>
 	    	<?php 
-			    echo Html::checkboxList('selectedPermissions',$existPermissions,ArrayHelper::map($permissions, 'name', 'name'));
+			    echo Html::checkboxList('selectedPermissions',$existPermissions,ArrayHelper::map($permissions, 'name', 'description'));
 			?>
 	    </div>
     <?php endforeach;?>

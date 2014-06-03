@@ -79,6 +79,11 @@ class ThreadController extends BaseFrontController
      */
     public function actionNewThread()
     {
+    	if(!YiiForum::checkAuth('thread_add'))
+    	{
+    		return $this->noPermission();
+    	}
+    	
     	YiiForum::checkIsGuest();
     	
     	$boardId=YiiForum::getGetValue('boardid');
@@ -157,6 +162,11 @@ class ThreadController extends BaseFrontController
      */
     public function actionEditThread($id)
     {
+    	if(!YiiForum::checkAuth('thread_edit'))
+    	{
+    		return $this->noPermission();
+    	}
+    	
     	YiiForum::checkIsGuest();
     	
         $model = $this->findModel($id);
@@ -199,6 +209,10 @@ class ThreadController extends BaseFrontController
      */
     public function actionDelete($id)
     {
+    	if(!YiiForum::checkAuth('thread_delete'))
+    	{
+    		return $this->noPermission();
+    	}
     	YiiForum::checkIsGuest();
     	
     	$thread=$this->findModel($id);
@@ -227,6 +241,11 @@ class ThreadController extends BaseFrontController
     
     public function actionNewPost()
     {
+    	if(!YiiForum::checkAuth('post_add'))
+    	{
+    		return $this->noPermission();
+    	}
+    	
     	YiiForum::checkIsGuest();
     
     	$post = new Post;
@@ -274,6 +293,11 @@ class ThreadController extends BaseFrontController
     
     public function actionEditPost($id)
     {
+    	if(!YiiForum::checkAuth('post_edit'))
+    	{
+    		return $this->noPermission();
+    	}
+    	
     	YiiForum::checkIsGuest();
     
     	$boardId=YiiForum::getGetValue('boardid');

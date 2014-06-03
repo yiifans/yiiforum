@@ -9,7 +9,7 @@ use yii\grid\GridView;
  * @var common\models\search\UserSearch $searchModel
  */
 
-$this->title = 'Users';
+$this->title = '用户管理';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		<td><?php echo $row['username']?></td>
 		<td>
 			
-			<?= Html::a('设置权限', ['permission','id'=>$row->id]) ?>
+			<?= Html::a('设置角色', ['role','id'=>$row->id]) ?>
 		
 			<a href="index.php?r=user/update&id=<?php echo $row->id?>"><span class="glyphicon glyphicon-pencil"></span></a>
 			<a href="index.php?r=user/delete&id=<?php echo $row->id?>" data-confirm="Are you sure to delete this item?" data-method="post"><span class="glyphicon glyphicon-trash"></span></a>

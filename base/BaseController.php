@@ -44,4 +44,9 @@ class BaseController extends Controller
 				'id' => $id
 		]);
 	}
+	
+	public function noPermission()
+	{
+		return 'no permission';
+	}
 }

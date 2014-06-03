@@ -211,4 +211,10 @@ class YiiForum
 		
 		return $ret;
 	}
+	
+	public static function checkAuth($permissionName, $params = [], $allowCaching = true)
+	{
+		$user = Yii::$app->user;
+		return $user->can($permissionName,$params,$allowCaching);
+	}
 }

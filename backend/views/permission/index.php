@@ -31,7 +31,8 @@ $this->params['breadcrumbs'][] = $this->title;
 		<td>  
 		    <p>
 		    	
-		        <?= Html::a('添加权限', ['create','category'=>YiiForum::getGetValue('category')], ['class' => 'btn btn-success']) ?>
+		        <?= Html::a('添加权限', ['create','category'=>$currentCategory], ['class' => 'btn btn-success']) ?>
+		        <?= Html::a('刷新缓存', ['refresh', 'category'=>$currentCategory], ['class' => 'btn btn-success']) ?>
 		    </p>
 		
 		    <table class="table">
@@ -47,8 +48,15 @@ $this->params['breadcrumbs'][] = $this->title;
 				<td><?php echo $row->name?></td>
 				<td><?php echo $row->description?></td>
 				<td>
-					<a href="index.php?r=permission/update&id=<?php echo $row->name?>"><span class="glyphicon glyphicon-pencil"></span></a>
-					<a href="index.php?r=permission/delete&id=<?php echo $row->name?>" data-confirm="Are you sure to delete this item?" data-method="post"><span class="glyphicon glyphicon-trash"></span></a>
+				
+					<?= Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['update','id'=>$row->name, 'category'=>$currentCategory]) ?>
+					<?= Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete','id'=>$row->name, 'category'=>$currentCategory],[
+							
+							'data' => [
+								'confirm' => 'Are you sure you want to delete this item?',
+								'method' => 'post',
+							],
+					]) ?>
 				</td>
 				</tr>
 				<?php endforeach;?>

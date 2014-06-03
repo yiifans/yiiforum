@@ -14,20 +14,19 @@ use yii\helpers\ArrayHelper;
 <div class="auth-item-form">
 
     <?php 
-    	
+	    $disabled = null;
+	    if(!$model->isNewRecord)
+	    {
+	    	$disabled = 'disabled';
+	    }
+	    
     	$form = ActiveForm::begin(); 
-    	if($model->isNewRecord)
-    	{
-    		echo $form->field($model, 'group')->dropDownList(ArrayHelper::map($groups, 'name', 'description'));
-    		echo $form->field($model, 'name')->textInput(['maxlength' => 64]);
-    	}
-    	else 
-    	{
-    		echo $form->field($model, 'group')->dropDownList(ArrayHelper::map($groups, 'name', 'description'),['disabled'=>'disabled']);
-    		echo $form->field($model, 'name')->textInput(['maxlength' => 64,'disabled'=>'disabled']);
-    	}
     ?>
 
+    <?= $form->field($model, 'group')->dropDownList(ArrayHelper::map($groups, 'name', 'description'),['disabled'=>$disabled]) ?>
+    
+    <?= $form->field($model, 'name')->textInput(['maxlength' => 64,'disabled'=>$disabled]) ?>
+    
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 
     <?= $form->field($model, 'data')->textarea(['rows' => 6]) ?>
