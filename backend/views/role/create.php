@@ -8,7 +8,7 @@ use yii\helpers\Html;
  */
 $this->title='添加角色';
 
-$this->params['breadcrumbs'][] = ['label' => '角色管理', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => '角色管理', 'url' => ['index','group'=>$currentGroup]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="auth-item-create">

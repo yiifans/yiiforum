@@ -21,9 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
     
     <?php $form = ActiveForm::begin();?>
     
-    <?php
-    	$existPermissions = array_keys($existPermissions);
-    	foreach ($allPermissions as $category=>$permissions):?>
+    <?php foreach ($allPermissions as $category=>$permissions):?>
 	    <div class="tbox">
 	    	<div class="hd"><?php echo $category?></div>
 	    	<?php 

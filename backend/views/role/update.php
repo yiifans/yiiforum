@@ -8,7 +8,7 @@ use yii\helpers\Html;
  */
 
 $this->title = '修改角色: ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => '角色管理', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => '角色管理', 'url' => ['index','group'=>$currentGroup]];
 $this->params['breadcrumbs'][] = $model->name;
 ?>
 <div class="auth-item-update">

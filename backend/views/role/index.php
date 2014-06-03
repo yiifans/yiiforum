@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				<div class="bd">
 					<ul>
 						<?php foreach ($groups as $group):?>
-						<li><?= Html::a($group->description, ['index','group'=>$group->name]) ?></li>
+						<li><?= Html::a($group['description'], ['index','group'=>$group['name']]) ?></li>
 						<?php endforeach;?>
 					</ul>
 				</div>
@@ -45,12 +45,12 @@ $this->params['breadcrumbs'][] = $this->title;
 				<?php foreach ($items as $row ): ?>
 				<tr>
 				
-				<td><?php echo $row->name?></td>
-				<td><?php echo $row->description?></td>
+				<td><?php echo $row['name']?></td>
+				<td><?php echo $row['description']?></td>
 				<td>
-					<?= Html::a('设置权限', ['permission','id'=>$row->name, 'group'=>$currentGroup]) ?>
-					<?= Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['update','id'=>$row->name, 'group'=>$currentGroup]) ?>
-					<?= Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete','id'=>$row->name, 'group'=>$currentGroup],[
+					<?= Html::a('设置权限', ['permission','id'=>$row['name'], 'group'=>$currentGroup]) ?>
+					<?= Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['update','id'=>$row['name'], 'group'=>$currentGroup]) ?>
+					<?= Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete','id'=>$row['name'], 'group'=>$currentGroup],[
 							
 							'data' => [
 								'confirm' => 'Are you sure you want to delete this item?',

@@ -22,6 +22,7 @@ $cachedPermissionCategories['category_thread'] = [
 	'created_at' => '1401452713',
 	'updated_at' => '1401452713',
 	'permissions' => [
+		'bb',
 		'thread_add',
 		'thread_delete',
 		'thread_edit',
@@ -57,6 +58,16 @@ $cachedPermissions['post_edit'] = [
 	'data' => 's:0:"";',
 	'created_at' => '1401455770',
 	'updated_at' => '1401459773',
+];
+$cachedPermissions['bb'] = [
+	'category' => 'category_thread',
+	'name' => 'bb',
+	'type' => 2,
+	'description' => 'bbxxx',
+	'rule_name' => '',
+	'data' => 's:14:"s:7:"s:0:"";";";',
+	'created_at' => '1401802665',
+	'updated_at' => '1401803796',
 ];
 $cachedPermissions['thread_add'] = [
 	'category' => 'category_thread',

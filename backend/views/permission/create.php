@@ -8,7 +8,7 @@ use yii\helpers\Html;
  */
 $this->title='添加权限';
 
-$this->params['breadcrumbs'][] = ['label' => '权限管理', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => '权限管理', 'url' => ['index','category'=>$currentCategory]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="auth-item-create">

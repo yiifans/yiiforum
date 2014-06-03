@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				<div class="bd">
 					<ul>
 						<?php foreach ($categories as $category):?>
-						<li><?= Html::a($category->description, ['index','category'=>$category->name]) ?></li>
+						<li><?= Html::a($category['description'], ['index','category'=>$category['name']]) ?></li>
 						<?php endforeach;?>
 					</ul>
 				</div>
@@ -45,12 +45,12 @@ $this->params['breadcrumbs'][] = $this->title;
 				<?php foreach ($items as $row ): ?>
 				<tr>
 				
-				<td><?php echo $row->name?></td>
-				<td><?php echo $row->description?></td>
+				<td><?php echo $row['name']?></td>
+				<td><?php echo $row['description']?></td>
 				<td>
 				
-					<?= Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['update','id'=>$row->name, 'category'=>$currentCategory]) ?>
-					<?= Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete','id'=>$row->name, 'category'=>$currentCategory],[
+					<?= Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['update','id'=>$row['name'], 'category'=>$currentCategory]) ?>
+					<?= Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete','id'=>$row['name'], 'category'=>$currentCategory],[
 							
 							'data' => [
 								'confirm' => 'Are you sure you want to delete this item?',

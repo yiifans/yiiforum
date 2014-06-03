@@ -134,6 +134,9 @@ $cachedRoles['member_level_0'] = [
 	'created_at' => '1401720496',
 	'updated_at' => '1401722061',
 	'permissions' => [
+		'post_delete',
+		'post_edit',
+		'thread_delete',
 	],
 ];
 $cachedRoles['member_level_1'] = [
@@ -217,9 +220,9 @@ $cachedRoles['member_level_5'] = [
 	'type' => 1,
 	'description' => '金牌会员',
 	'rule_name' => '',
-	'data' => '',
+	'data' => 's:0:"";',
 	'created_at' => '1401720580',
-	'updated_at' => '1401720580',
+	'updated_at' => '1401801898',
 	'permissions' => [
 		'post_add',
 		'post_delete',

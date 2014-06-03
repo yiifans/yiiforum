@@ -19,6 +19,45 @@ use yii\web\View;
 class BaseView extends View
 {
 
+	private  $_cachedRoles;
+	public function getCachedRoles()
+	{
+		if($this->_cachedRoles==null)
+		{
+			$this->_cachedRoles=YiiForum::getAppParam('cachedRoles');
+		}
+		return $this->_cachedRoles;
+	}
+	private  $_cachedRoleGroups;
+	public function getCachedRoleGroups()
+	{
+		if($this->_cachedRoleGroups==null)
+		{
+			$this->_cachedRoleGroups=YiiForum::getAppParam('cachedRoleGroups');
+		}
+		return $this->_cachedRoleGroups;
+	}
+	
+	private  $_cachedPermissions;
+	public function getCachedPermissions()
+	{
+		if($this->_cachedPermissions==null)
+		{
+			$this->_cachedPermissions=YiiForum::getAppParam('cachedPermissions');
+		}
+		return $this->_cachedPermissions;
+	}
+	
+	private  $_cachedPermissionCategories;
+	public function getCachedPermissionCategories()
+	{
+		if($this->_cachedPermissionCategories==null)
+		{
+			$this->_cachedPermissionCategories=YiiForum::getAppParam('cachedPermissionCategories');
+		}
+		return $this->_cachedPermissionCategories;
+	}
+	
 	private $_cachedBoards;
 
 	public function getCachedBoards()
