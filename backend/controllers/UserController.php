@@ -16,6 +16,7 @@ use yii\rbac\Role;
  */
 class UserController extends BaseBackController
 {
+
 	public function behaviors()
 	{
 		return [
@@ -29,7 +30,7 @@ class UserController extends BaseBackController
 				] 
 		];
 	}
-	
+
 	/**
 	 * Lists all User models.
 	 *
@@ -42,7 +43,7 @@ class UserController extends BaseBackController
 		
 		return $this->render('index', $locals);
 	}
-	
+
 	/**
 	 * Displays a single User model.
 	 *
@@ -55,7 +56,7 @@ class UserController extends BaseBackController
 				'model' => $this->findModel($id) 
 		]);
 	}
-	
+
 	/**
 	 * Creates a new User model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
@@ -79,7 +80,7 @@ class UserController extends BaseBackController
 			]);
 		}
 	}
-	
+
 	/**
 	 * Updates an existing User model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
@@ -104,7 +105,7 @@ class UserController extends BaseBackController
 			]);
 		}
 	}
-	
+
 	/**
 	 * Deletes an existing User model.
 	 * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -120,7 +121,7 @@ class UserController extends BaseBackController
 				'index' 
 		]);
 	}
-	
+
 	/**
 	 * Finds the User model based on its primary key value.
 	 * If the model is not found, a 404 HTTP exception will be thrown.
@@ -140,6 +141,7 @@ class UserController extends BaseBackController
 			throw new NotFoundHttpException('The requested page does not exist.');
 		}
 	}
+
 	public function updateAssignments($allItems, $selectedItems, $existedItems, $id)
 	{
 		$auth = \Yii::$app->authManager;
@@ -184,6 +186,7 @@ class UserController extends BaseBackController
 			}
 		}
 	}
+
 	public function actionRole($id)
 	{
 		$auth = \Yii::$app->authManager;

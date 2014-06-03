@@ -1,5 +1,7 @@
 <?php
+
 namespace base;
+
 use Yii;
 use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
@@ -40,10 +42,9 @@ class BaseActiveRecord extends ActiveRecord
 			$primaryKey = static::primaryKey();
 			if (isset($primaryKey[0]))
 			{
-				$ret = $query->andWhere(
-						[
-								$primaryKey[0] => $condition
-						]);
+				$ret = $query->andWhere([
+						$primaryKey[0] => $condition 
+				]);
 				if ($order !== null)
 				{
 					$ret = $ret->orderBy($order);
@@ -52,8 +53,7 @@ class BaseActiveRecord extends ActiveRecord
 			}
 			else
 			{
-				throw new InvalidConfigException(
-						get_called_class() . ' must have a primary key.');
+				throw new InvalidConfigException(get_called_class() . ' must have a primary key.');
 			}
 		}
 	}
@@ -77,10 +77,9 @@ class BaseActiveRecord extends ActiveRecord
 			$primaryKey = static::primaryKey();
 			if (isset($primaryKey[0]))
 			{
-				$ret = $query->andWhere(
-						[
-								$primaryKey[0] => $condition
-						]);
+				$ret = $query->andWhere([
+						$primaryKey[0] => $condition 
+				]);
 				if ($order !== null)
 				{
 					$ret = $ret->orderBy($order);
@@ -89,8 +88,7 @@ class BaseActiveRecord extends ActiveRecord
 			}
 			else
 			{
-				throw new InvalidConfigException(
-						get_called_class() . ' must have a primary key.');
+				throw new InvalidConfigException(get_called_class() . ' must have a primary key.');
 			}
 		}
 	}

@@ -1,5 +1,7 @@
 <?php
+
 namespace base;
+
 use Yii;
 use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
@@ -20,27 +22,30 @@ use common\models\Board;
  */
 class BaseController extends Controller
 {
-	private  $_cachedRoles;
-	public function getCachedRoles($roleName=null)
+
+	private $_cachedRoles;
+
+	public function getCachedRoles($roleName = null)
 	{
-		if($this->_cachedRoles==null)
+		if ($this->_cachedRoles == null)
 		{
-			$this->_cachedRoles=YiiForum::getAppParam('cachedRoles');
+			$this->_cachedRoles = YiiForum::getAppParam('cachedRoles');
 		}
-		if($roleName!==null)
+		if ($roleName !== null)
 		{
 			return $this->_cachedRoles[$roleName];
 		}
 		return $this->_cachedRoles;
 	}
+
 	public function getCachedRolesByGroup($groupName)
 	{
 		$groups = $this->getCachedRoleGroups();
-		if($groupName !=null&&isset($groups[$groupName]))
+		if ($groupName != null && isset($groups[$groupName]))
 		{
 			$items = [];
 			$roles = $groups[$groupName]['roles'];
-			foreach ($roles as $role)
+			foreach ( $roles as $role )
 			{
 				$items[$role] = $this->getCachedRoles($role);
 			}
@@ -48,41 +53,45 @@ class BaseController extends Controller
 		}
 		return false;
 	}
-	private  $_cachedRoleGroups;
-	public function getCachedRoleGroups($groupName=null)
+
+	private $_cachedRoleGroups;
+
+	public function getCachedRoleGroups($groupName = null)
 	{
-		if($this->_cachedRoleGroups==null)
+		if ($this->_cachedRoleGroups == null)
 		{
-			$this->_cachedRoleGroups=YiiForum::getAppParam('cachedRoleGroups');
+			$this->_cachedRoleGroups = YiiForum::getAppParam('cachedRoleGroups');
 		}
-		if($groupName!==null)
+		if ($groupName !== null)
 		{
 			return $this->_cachedRoleGroups[$groupName];
 		}
 		return $this->_cachedRoleGroups;
 	}
-	
-	private  $_cachedPermissions;
-	public function getCachedPermissions($permissionName=null)
+
+	private $_cachedPermissions;
+
+	public function getCachedPermissions($permissionName = null)
 	{
-		if($this->_cachedPermissions==null)
+		if ($this->_cachedPermissions == null)
 		{
-			$this->_cachedPermissions=YiiForum::getAppParam('cachedPermissions');
+			$this->_cachedPermissions = YiiForum::getAppParam('cachedPermissions');
 		}
-		if($permissionName!=null)
+		if ($permissionName != null)
 		{
 			return $this->_cachedPermissions[$permissionName];
 		}
 		return $this->_cachedPermissions;
 	}
-	public function getCachedPermissionsByCategory($categoryName=null)
+
+	public function getCachedPermissionsByCategory($categoryName = null)
 	{
 		$categories = $this->getCachedPermissionCategories();
-		if($categoryName !=null&&isset($categories[$categoryName]))
+		if ($categoryName != null && isset($categories[$categoryName]))
 		{
 			$items = [];
 			$permissions = $categories[$categoryName]['permissions'];
-			foreach ($permissions as $permission)
+			foreach ( $permissions as $permission )
 			{
 				$items[$permission] = $this->getCachedPermissions($permission);
 			}
@@ -90,12 +99,14 @@ class BaseController extends Controller
 		}
 		return false;
 	}
-	private  $_cachedPermissionCategories;
+
+	private $_cachedPermissionCategories;
+
 	public function getCachedPermissionCategories()
 	{
-		if($this->_cachedPermissionCategories==null)
+		if ($this->_cachedPermissionCategories == null)
 		{
-			$this->_cachedPermissionCategories=YiiForum::getAppParam('cachedPermissionCategories');
+			$this->_cachedPermissionCategories = YiiForum::getAppParam('cachedPermissionCategories');
 		}
 		return $this->_cachedPermissionCategories;
 	}
@@ -120,10 +131,10 @@ class BaseController extends Controller
 		}
 		
 		return Board::findOne([
-				'id' => $id
+				'id' => $id 
 		]);
 	}
-	
+
 	public function noPermission()
 	{
 		return 'no permission';

@@ -18,6 +18,7 @@ use yii\rbac\Permission;
  */
 class PermissionController extends AuthController
 {
+
 	/**
 	 * Lists all AuthItem models.
 	 *
@@ -40,7 +41,7 @@ class PermissionController extends AuthController
 		
 		return $this->render('index', $locals);
 	}
-	
+
 	/**
 	 * Creates a new AuthItem model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
@@ -82,6 +83,7 @@ class PermissionController extends AuthController
 			return $this->render('create', $locals);
 		}
 	}
+
 	public function actionRefresh()
 	{
 		$categoryName = YiiForum::getGetValue('category');
@@ -92,6 +94,7 @@ class PermissionController extends AuthController
 				'category' => $categoryName 
 		]);
 	}
+
 	/**
 	 * Updates an existing AuthItem model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
@@ -129,7 +132,7 @@ class PermissionController extends AuthController
 			return $this->render('update', $locals);
 		}
 	}
-	
+
 	/**
 	 * Displays a single AuthItem model.
 	 *
@@ -142,7 +145,7 @@ class PermissionController extends AuthController
 				'model' => $this->findModel($id) 
 		]);
 	}
-	
+
 	/**
 	 * Deletes an existing AuthItem model.
 	 * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -165,7 +168,7 @@ class PermissionController extends AuthController
 				'category' => $categoryName 
 		]);
 	}
-	
+
 	/**
 	 * Finds the AuthItem model based on its primary key value.
 	 * If the model is not found, a 404 HTTP exception will be thrown.

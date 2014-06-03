@@ -18,6 +18,7 @@ use yii\rbac\Permission;
  */
 class RoleController extends AuthController
 {
+
 	/**
 	 * Lists all AuthItem models.
 	 *
@@ -40,7 +41,7 @@ class RoleController extends AuthController
 		
 		return $this->render('index', $locals);
 	}
-	
+
 	/**
 	 * Creates a new AuthItem model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
@@ -79,6 +80,7 @@ class RoleController extends AuthController
 			return $this->render('create', $locals);
 		}
 	}
+
 	public function actionRefresh()
 	{
 		$groupName = YiiForum::getGetValue('group');
@@ -89,6 +91,7 @@ class RoleController extends AuthController
 				'group' => $groupName 
 		]);
 	}
+
 	/**
 	 * Updates an existing AuthItem model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
@@ -126,6 +129,7 @@ class RoleController extends AuthController
 			return $this->render('update', $locals);
 		}
 	}
+
 	private function updatePermissions($allItems, $selectedItems, $existedItems, $parent, $child)
 	{
 		if ($selectedItems == null)
@@ -167,6 +171,7 @@ class RoleController extends AuthController
 			}
 		}
 	}
+
 	public function actionPermission($id)
 	{
 		$groupName = YiiForum::getGetValue('group');
@@ -193,7 +198,7 @@ class RoleController extends AuthController
 		}
 		else
 		{
-			$allPermissions=[];
+			$allPermissions = [];
 			$categories = $this->getCachedPermissionCategories();
 			foreach ( $categories as $category )
 			{
@@ -208,7 +213,7 @@ class RoleController extends AuthController
 			return $this->render('permission', $locals);
 		}
 	}
-	
+
 	/**
 	 * Displays a single AuthItem model.
 	 *
@@ -221,7 +226,7 @@ class RoleController extends AuthController
 				'model' => $this->findModel($id) 
 		]);
 	}
-	
+
 	/**
 	 * Deletes an existing AuthItem model.
 	 * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -244,7 +249,7 @@ class RoleController extends AuthController
 				'group' => $groupName 
 		]);
 	}
-	
+
 	/**
 	 * Finds the AuthItem model based on its primary key value.
 	 * If the model is not found, a 404 HTTP exception will be thrown.

@@ -1,5 +1,7 @@
 <?php
+
 namespace base;
+
 use Yii;
 use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
@@ -19,45 +21,50 @@ use yii\web\View;
 class BaseView extends View
 {
 
-	private  $_cachedRoles;
+	private $_cachedRoles;
+
 	public function getCachedRoles()
 	{
-		if($this->_cachedRoles==null)
+		if ($this->_cachedRoles == null)
 		{
-			$this->_cachedRoles=YiiForum::getAppParam('cachedRoles');
+			$this->_cachedRoles = YiiForum::getAppParam('cachedRoles');
 		}
 		return $this->_cachedRoles;
 	}
-	private  $_cachedRoleGroups;
+
+	private $_cachedRoleGroups;
+
 	public function getCachedRoleGroups()
 	{
-		if($this->_cachedRoleGroups==null)
+		if ($this->_cachedRoleGroups == null)
 		{
-			$this->_cachedRoleGroups=YiiForum::getAppParam('cachedRoleGroups');
+			$this->_cachedRoleGroups = YiiForum::getAppParam('cachedRoleGroups');
 		}
 		return $this->_cachedRoleGroups;
 	}
-	
-	private  $_cachedPermissions;
+
+	private $_cachedPermissions;
+
 	public function getCachedPermissions()
 	{
-		if($this->_cachedPermissions==null)
+		if ($this->_cachedPermissions == null)
 		{
-			$this->_cachedPermissions=YiiForum::getAppParam('cachedPermissions');
+			$this->_cachedPermissions = YiiForum::getAppParam('cachedPermissions');
 		}
 		return $this->_cachedPermissions;
 	}
-	
-	private  $_cachedPermissionCategories;
+
+	private $_cachedPermissionCategories;
+
 	public function getCachedPermissionCategories()
 	{
-		if($this->_cachedPermissionCategories==null)
+		if ($this->_cachedPermissionCategories == null)
 		{
-			$this->_cachedPermissionCategories=YiiForum::getAppParam('cachedPermissionCategories');
+			$this->_cachedPermissionCategories = YiiForum::getAppParam('cachedPermissionCategories');
 		}
 		return $this->_cachedPermissionCategories;
 	}
-	
+
 	private $_cachedBoards;
 
 	public function getCachedBoards()
@@ -83,7 +90,7 @@ class BaseView extends View
 			{
 				$this->params['breadcrumbs'][] = [
 						'label' => $args[0],
-						'url' => $args[1]
+						'url' => $args[1] 
 				];
 			}
 	}

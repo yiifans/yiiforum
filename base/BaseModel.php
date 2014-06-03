@@ -1,5 +1,7 @@
 <?php
+
 namespace base;
+
 use Yii;
 use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;

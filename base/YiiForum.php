@@ -1,5 +1,7 @@
 <?php
+
 namespace base;
+
 use Yii;
 use common\models\LoginForm;
 use yii\data\Pagination;
@@ -75,7 +77,7 @@ class YiiForum
 
 	public static function setAppParam($array)
 	{
-		foreach ($array as $key => $value)
+		foreach ( $array as $key => $value )
 		{
 			\Yii::$app->params[$key] = $value;
 		}
@@ -94,7 +96,7 @@ class YiiForum
 	public static function setViewParam($array)
 	{
 		$view = \Yii::$app->getView();
-		foreach ($array as $name => $value)
+		foreach ( $array as $name => $value )
 		{
 			$view->params[$name] = $value;
 		}
@@ -148,10 +150,9 @@ class YiiForum
 		$isGuest = Yii::$app->user->isGuest;
 		if ($isGuest)
 		{
-			return Yii::$app->getResponse()->redirect(
-					Url::to([
-							'site/login'
-					]), 302);
+			return Yii::$app->getResponse()->redirect(Url::to([
+					'site/login' 
+			]), 302);
 		}
 		return true;
 	}
@@ -177,10 +178,9 @@ class YiiForum
 	public static function getPagedRows($query, $config = [])
 	{
 		$countQuery = clone $query;
-		$pages = new Pagination(
-				[
-						'totalCount' => $countQuery->count()
-				]);
+		$pages = new Pagination([
+				'totalCount' => $countQuery->count() 
+		]);
 		if (isset($config['pageSize']))
 		{
 			$pages->setPageSize($config['pageSize'], true);
@@ -211,10 +211,10 @@ class YiiForum
 		
 		return $ret;
 	}
-	
+
 	public static function checkAuth($permissionName, $params = [], $allowCaching = true)
 	{
 		$user = Yii::$app->user;
-		return $user->can($permissionName,$params,$allowCaching);
+		return $user->can($permissionName, $params, $allowCaching);
 	}
 }
