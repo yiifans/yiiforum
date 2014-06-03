@@ -26,6 +26,7 @@ SET time_zone = "+00:00";
 -- 表的结构 `auth_item`
 --
 
+DROP TABLE IF EXISTS `auth_item`;
 CREATE TABLE IF NOT EXISTS `auth_item` (
   `name` varchar(64) NOT NULL,
   `type` int(11) NOT NULL,
