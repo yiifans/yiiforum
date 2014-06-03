@@ -10,7 +10,7 @@ use yii\helpers\ArrayHelper;
  */
 $this->title='设定权限:'.$model->description;
 
-$this->params['breadcrumbs'][] = ['label' => '角色管理', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => '角色管理', 'url' => ['index','group'=>$currentGroup]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="auth-item-create">

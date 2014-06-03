@@ -206,6 +206,7 @@ class RoleController extends AuthController
 			}
 			
 			$locals = [];
+			$locals['currentGroup'] = $groupName;
 			$locals['model'] = $model;
 			$locals['allPermissions'] = $allPermissions;
 			$locals['existPermissions'] = $existPermissions;
